@@ -11,6 +11,7 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println("Commit");
 		System.out.println("Commit development");
+		System.out.println("Commit development2");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
