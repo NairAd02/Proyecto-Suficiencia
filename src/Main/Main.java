@@ -11,7 +11,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 
-		System.out.println("Este es un nuevo mensaje");
+		System.out.println("Este es un nuevo mensaje mejorado");
 		EventQueue.invokeLater(new Runnable() {		
 
 			public void run() {
