@@ -11,6 +11,7 @@ public abstract class Clase  {
 	protected ArrayList<Clase> hijos;
 
 	public ArrayList<Clase> getHijos() {
+		System.out.println("Kendry prueba");
 		return hijos;
 	}
 
