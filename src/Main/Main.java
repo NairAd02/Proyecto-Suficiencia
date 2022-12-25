@@ -10,8 +10,10 @@ public class Main {
 	
 	
 	public static void main(String[] args) {
+
 		System.out.println("Me");
 		EventQueue.invokeLater(new Runnable() {		
+
 			public void run() {
 				try {
 					Principal frame = new Principal(new Diagrama());
