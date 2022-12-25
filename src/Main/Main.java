@@ -10,6 +10,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		System.out.println("Commit");
+		System.out.println("Commit development");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
