@@ -44,6 +44,7 @@ public abstract class Clase  {
 	}
 
 	public void addPadre(Clase padre){
+		System.out.println("Prueba");
 		if(padre!=null)
 			this.padre=padre;
 		else
