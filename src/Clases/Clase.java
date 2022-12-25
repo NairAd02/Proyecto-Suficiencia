@@ -53,6 +53,7 @@ public abstract class Clase  {
 	}
 
 	public void addHijo(Clase hijo){
+		System.out.println("Tercera Prueba de Kendry");
 		this.hijos.add(hijo);
 
 	}
