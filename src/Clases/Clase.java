@@ -30,6 +30,7 @@ public abstract class Clase  {
 
 
 	public String getNombre() {
+		System.out.print("Y ahora");
 		return nombre;
 	}
 
