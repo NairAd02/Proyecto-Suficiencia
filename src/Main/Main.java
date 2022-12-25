@@ -9,6 +9,7 @@ public class Main {
 
 	
 	public static void main(String[] args) {
+		System.out.println("Commit");
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
