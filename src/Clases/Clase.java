@@ -34,6 +34,7 @@ public abstract class Clase  {
 	}
 
 	public void setNombre(String nombre) throws Exception {
+		System.out.println("Prueba");
 		if(nombre!=null && !nombre.equals(""))
 			this.nombre = nombre;
 		else
