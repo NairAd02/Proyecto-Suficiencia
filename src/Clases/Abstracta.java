@@ -1,0 +1,36 @@
+package Clases;
+
+import java.util.ArrayList;
+
+public class Abstracta extends Clase {
+
+	public Abstracta(String nombre) throws Exception {
+		super(nombre);
+		
+	}
+	
+	public ArrayList<Metodo> getAbstractos(){
+		ArrayList<Metodo> metodosAbstractos = new ArrayList<Metodo>();
+		for(Metodo a:this.metodos){
+			if(a.isAbstracto())
+				metodosAbstractos.add(a);
+		}
+		
+		
+		return metodosAbstractos;
+			
+	}
+	
+	public boolean soloMetedosAbstractos(){
+		boolean veredicto = true;
+
+		for(int i = 0; i<this.metodos.size() && veredicto == true; i++){
+			if(!this.metodos.get(i).isAbstracto())
+				veredicto = false;
+		}
+
+		return veredicto;
+
+	}  
+	
+}
