@@ -1,6 +1,12 @@
 package Clases;
 
-public class Atributo extends Variable {
+import java.io.Serializable;
+
+public class Atributo extends Variable implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String nombre;
 	private String visibilidad;
 	

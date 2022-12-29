@@ -15,7 +15,7 @@ public class DiagramaTestCase {
  private Diagrama diagrama;
 	@Before
 	public void setUp() throws Exception {
-		diagrama = new Diagrama();
+		diagrama = Diagrama.getInstance();
 	}
 
 	@After

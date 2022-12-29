@@ -1,9 +1,14 @@
 package util;
 
 import java.awt.Point;
+import java.io.Serializable;
 
-public class Linea {
+public class Linea implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Point lineaP1, lineaP2;
 	//private Point lineaMid;
 

@@ -31,7 +31,7 @@ public class MenuContextualMetodo extends JPopupMenu {
 		});
 		
 		JMenuItem mntmModificarMetodo = new JMenuItem("Modificar Metodo");
-		mntmModificarMetodo.addMouseListener(new MouseAdapter() {
+		mntmModificarMetodo.addMouseListener(new MouseAdapter()  {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				ModificarMetodo modiMetod = new ModificarMetodo(pe);

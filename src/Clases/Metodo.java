@@ -1,10 +1,15 @@
 package Clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Metodo implements TipoValidable {
+public class Metodo implements TipoValidable, Serializable {
 	
-     private String nombre;
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String nombre;
      private String modificadorAcceso;
      private boolean abstracto;
      private String tipoRetorno;

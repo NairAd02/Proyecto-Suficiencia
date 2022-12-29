@@ -1,8 +1,14 @@
 package Clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Abstracta extends Clase {
+public class Abstracta extends Clase implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public Abstracta(String nombre) throws Exception {
 		super(nombre);

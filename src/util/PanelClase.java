@@ -30,7 +30,7 @@ public class PanelClase extends JPanel {
 
 	int mouseX;
 	int mouseY;
-	private Principal pe;
+	private transient Principal pe;
 	private Point top, bottom, left, right;
 	private PanelClase claseSeleccionada;
 	private JLabel lblNombreclase;

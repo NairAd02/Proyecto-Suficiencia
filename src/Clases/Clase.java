@@ -1,9 +1,14 @@
 package Clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public abstract class Clase  {
+public abstract class Clase implements Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected String nombre;
 	protected ArrayList<Metodo> metodos;
 	protected ArrayList<Atributo> atributos;
@@ -11,7 +16,7 @@ public abstract class Clase  {
 	protected ArrayList<Clase> hijos;
 
 	public ArrayList<Clase> getHijos() {
-		System.out.println("Kendry prueba");
+		
 		return hijos;
 	}
 
@@ -31,12 +36,12 @@ public abstract class Clase  {
 
 
 	public String getNombre() {
-		System.out.print("Y ahora");
+		
 		return nombre;
 	}
 
 	public void setNombre(String nombre) throws Exception {
-		System.out.println("Prueba");
+		
 		if(nombre!=null && !nombre.equals(""))
 			this.nombre = nombre;
 		else
@@ -44,7 +49,7 @@ public abstract class Clase  {
 	}
 
 	public void addPadre(Clase padre){
-		System.out.println("Prueba");
+		
 		if(padre!=null)
 			this.padre=padre;
 		else
@@ -53,7 +58,7 @@ public abstract class Clase  {
 	}
 
 	public void addHijo(Clase hijo){
-		System.out.println("Tercera Prueba de Kendry");
+		
 		this.hijos.add(hijo);
 
 	}

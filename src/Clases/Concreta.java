@@ -1,8 +1,14 @@
 package Clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Concreta extends Clase {
+public class Concreta extends Clase implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public Concreta(String nombre) throws Exception {
 		super(nombre);

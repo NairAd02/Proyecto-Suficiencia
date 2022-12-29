@@ -14,10 +14,12 @@ import util.JTextFieldMejorado;
 import util.LabelAtributo;
 import util.PanelClase;
 import Clases.Atributo;
+import Clases.Diagrama;
 import Logica.Operaciones;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.swing.border.LineBorder;
 
 public class AgregarAtributo extends JFrame {
@@ -25,7 +27,6 @@ public class AgregarAtributo extends JFrame {
 
 	private JPanel contentPane;
 	private PanelClase pe;
-
 	private JPanel panelCancelar;
 
 	private JLabel labelCancelar;

@@ -3,9 +3,12 @@ package Interfaz;
 import javax.swing.*;
 
 import Clases.*;
+import Logica.ManejoDirectorios;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.border.LineBorder;
 
@@ -208,8 +211,10 @@ public class Principal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Principal(Diagrama d) {
-		diagrama = d;
+	public Principal() {
+		diagrama = Diagrama.getInstance();
+		lienzo = diagrama.getLienzo();
+		
 		pant = new PantallaCompleta(Principal.this);
 		pant.setVisible(false);
 		isInsertar=false;
@@ -313,6 +318,9 @@ public class Principal extends JFrame {
 			public void mouseExited(MouseEvent arg0) {
 				panelNuevo.setBackground(SystemColor.white);
 			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
 		});
 		panelArchivoDesp.add(panelNuevo);
 
@@ -335,6 +343,12 @@ public class Principal extends JFrame {
 			public void mouseExited(MouseEvent arg0) {
 				panelAbrir.setBackground(SystemColor.white);
 			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				DiagramasAbrir abrir = new DiagramasAbrir(Principal.this);
+				abrir.setVisible(true);
+				setEnabled(false);
+			}
 		});
 		panelArchivoDesp.add(panelAbrir);
 
@@ -356,6 +370,18 @@ public class Principal extends JFrame {
 			@Override
 			public void mouseExited(MouseEvent arg0) {
 				panelGuardar.setBackground(SystemColor.white);
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				try {
+					ManejoDirectorios.guardarArchivo(diagrama);
+				} catch (FileNotFoundException e1) {
+					
+					e1.printStackTrace();
+				} catch (IOException e1) {
+				
+					e1.printStackTrace();
+				}
 			}
 		});
 		panelArchivoDesp.add(panelGuardar);
@@ -1078,8 +1104,6 @@ public class Principal extends JFrame {
 		separator5.setBounds(436, 0, 2, 50);
 		panelMenu.add(separator5);
 
-
-		lienzo = new Lienzo();
 		menuLienzo = new  MenuContextualLienzo(Principal.this);
 		lienzo.setComponentPopupMenu(menuLienzo);
 		lienzo.addMouseListener(new MouseAdapter() {
@@ -1122,6 +1146,7 @@ public class Principal extends JFrame {
 						panelClase.setBounds(e.getX(), e.getY(), panelClase.getPreferredSize().width+50, panelClase.getPreferredSize().height+50);
 						panelClase.setMidPoint();
 						lienzo.add(panelClase);
+						
 						lienzo.repaint();
 						lienzo.revalidate();	
 						panelClase.repaint();

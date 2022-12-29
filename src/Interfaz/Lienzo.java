@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -18,8 +19,8 @@ public class Lienzo extends JPanel implements Runnable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Graphics2D g2;
-	private Thread gameThread;
+	private transient Graphics2D g2;
+	private transient Thread gameThread;
 	private int FPS = 60;
 	private ArrayList<Flecha> herencias = new ArrayList<Flecha>();
 	private ArrayList<Linea> asociaciones = new ArrayList<Linea>();

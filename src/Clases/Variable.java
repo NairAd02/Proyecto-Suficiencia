@@ -1,6 +1,8 @@
 package Clases;
 
-public abstract class Variable implements TipoValidable {
+import java.io.Serializable;
+
+public abstract class Variable implements TipoValidable, Serializable {
 	protected String tipoDato;
 	
 	

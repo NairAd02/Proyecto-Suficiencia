@@ -1,15 +1,56 @@
 package Clases;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
+import Interfaz.Lienzo;
 
-public class Diagrama implements Validable {
+
+public class Diagrama implements Validable, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Clase> clases;
+	private String nombre;
+	private static Diagrama diagrama;
+	private Lienzo lienzo;
 
 
-	public Diagrama() {
+	public Lienzo getLienzo() {
+
+		return lienzo;
+	}
+
+	private Diagrama(String nombre) {
 
 		this.clases = new ArrayList<Clase>();
+		this.nombre = nombre;
+		this.lienzo = new Lienzo();
+	}
+
+	public static Diagrama getInstance(String nombre){
+		if(diagrama == null)
+			diagrama = new Diagrama(nombre);
+
+		return diagrama;
+
+	}
+
+	public static void setInstance(Diagrama d){
+		diagrama = d;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public static Diagrama getInstance(){
+		return diagrama;
 	}
 
 
@@ -39,7 +80,7 @@ public class Diagrama implements Validable {
 		}
 		return validator;
 	}
-	
+
 	private boolean validar(Clase clase, int posicionIgnorar){
 
 		boolean validator = true;
@@ -50,15 +91,15 @@ public class Diagrama implements Validable {
 			for(int i=0;i<this.clases.size()&& validator==true;i++){
 				if(clase.getNombre().equals(this.clases.get(i).getNombre()) && i!= posicionIgnorar) 
 					validator = false;
-				
-				
+
+
 			}
 		}
 
 		return validator;
 
 	}
-	
+
 	public Clase obtenerPadreClase(String nombreClase){
 		return this.buscarClase(nombreClase).getPadre();
 	}
@@ -67,13 +108,13 @@ public class Diagrama implements Validable {
 		Clase clasePadre = this.buscarClase(nombreClasePadre);
 		Clase claseHija = this.buscarClase(nombreClaseHija);
 		if((clasePadre!=null && claseHija!=null) && !claseHija.equals(clasePadre) && !claseHija.isDescendiente(clasePadre))
-		this.addHerencia(clasePadre, claseHija);
+			this.addHerencia(clasePadre, claseHija);
 		else
 			throw new Exception("Herencia Propia");
 	}
 
 	private void addHerencia(Clase clasePadre, Clase claseHija) throws Exception{
-		
+
 		if(claseHija.getPadre()==null){
 			claseHija.addPadre(clasePadre);
 			this.actualizarHerencia();
@@ -88,8 +129,8 @@ public class Diagrama implements Validable {
 		for(int i=0;i<this.clases.size();i++){
 			for(int j=0;j<this.clases.size();j++){
 				if(this.clases.get(j).isMiPadre(this.clases.get(i)) && !this.clases.get(i).isMiHijo(this.clases.get(j))){
-					
-						System.out.println("Padre: "+this.clases.get(i).getNombre()+" "+"Hijo: " +this.clases.get(j).getNombre());
+
+					System.out.println("Padre: "+this.clases.get(i).getNombre()+" "+"Hijo: " +this.clases.get(j).getNombre());
 					this.clases.get(i).addHijo(this.clases.get(j));
 				}
 			}
@@ -119,15 +160,15 @@ public class Diagrama implements Validable {
 
 	public void modificarClase(String nombreClase, Clase claseNueva) throws Exception{
 		boolean validator = false;
-		
+
 		for(int i=0; i<this.clases.size() && validator == false;i++){
 			if(nombreClase.equalsIgnoreCase(this.clases.get(i).getNombre())){
 				if(this.validar(claseNueva, i)){
-				claseNueva.setAtributos(this.clases.get(i).getAtributos());
-				claseNueva.setMetodos(this.clases.get(i).getMetodos());
-				claseNueva.setPadre(this.clases.get(i).getPadre());
-				this.clases.set(i,claseNueva);
-				validator = true;
+					claseNueva.setAtributos(this.clases.get(i).getAtributos());
+					claseNueva.setMetodos(this.clases.get(i).getMetodos());
+					claseNueva.setPadre(this.clases.get(i).getPadre());
+					this.clases.set(i,claseNueva);
+					validator = true;
 				}
 				else{			
 					throw new Exception("Clase mismo nombre");			
@@ -143,13 +184,13 @@ public class Diagrama implements Validable {
 
 		for(int i=0; i<this.clases.size() && validator == false;i++){
 			if(nombreClase.equalsIgnoreCase(this.clases.get(i).getNombre())){
-				
+
 				claseAbstracta.setAtributos(this.clases.get(i).getAtributos());
 				claseAbstracta.setMetodos(this.clases.get(i).getMetodos());
 				claseAbstracta.setPadre(this.clases.get(i).getPadre());
 				this.clases.set(i,claseAbstracta);
 				validator = true;
-						
+
 			}
 		}
 
@@ -172,7 +213,7 @@ public class Diagrama implements Validable {
 
 		return clase;
 	}
-	
+
 
 
 	public void eliminarClase(String nombre){
@@ -181,29 +222,29 @@ public class Diagrama implements Validable {
 			this.eliminarPadre(claseEliminar);
 			this.eliminarHijo(claseEliminar);
 			this.clases.remove(claseEliminar);
-			
+
 		}
 		else
 			throw new IllegalArgumentException();
 	}
-	
+
 	public void eliminarPadre(Clase clase){
-		
+
 		for(int i = 0; i < this.clases.size(); i++){
 			if(this.clases.get(i).isMiPadre(clase)){
 				this.clases.get(i).eliminarPadre();
 			}
 		}
 	}
-	
+
 	public void eliminarHijo(Clase clase){
-		
+
 		for(int i = 0; i < this.clases.size(); i++){
 			if(this.clases.get(i).isMiHijo(clase)){
 				this.clases.get(i).eliminarHijo(clase);
 			}
 		}
-		
+
 	}
 
 
@@ -404,7 +445,7 @@ public class Diagrama implements Validable {
 				clasesMasRelaciones.add(a);
 			}
 		}
-		
+
 
 		return clasesMasRelaciones;
 	}

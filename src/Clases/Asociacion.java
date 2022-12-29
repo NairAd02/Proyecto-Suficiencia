@@ -1,7 +1,13 @@
 package Clases;
 
-public class Asociacion extends Clase{
+import java.io.Serializable;
 
+public class Asociacion extends Clase implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Concreta clase1;
 	private Concreta clase2;
 
