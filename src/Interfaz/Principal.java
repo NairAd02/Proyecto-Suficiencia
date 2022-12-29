@@ -1096,7 +1096,7 @@ public class Principal extends JFrame {
 		separator_10.setOrientation(SwingConstants.VERTICAL);
 		separator_10.setForeground(Color.BLACK);
 		separator_10.setBackground(Color.BLACK);
-
+		
 		separator5 = new JSeparator();
 		separator5.setForeground(Color.BLACK);
 		separator5.setOrientation(SwingConstants.VERTICAL);
@@ -1105,93 +1105,12 @@ public class Principal extends JFrame {
 		panelMenu.add(separator5);
 
 		menuLienzo = new  MenuContextualLienzo(Principal.this);
-		lienzo.setComponentPopupMenu(menuLienzo);
-		lienzo.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				boolean x=true;
-				panelHerramDesp.setVisible(false);
-				desplegadoHerram = false;
-				panelArchivoDesp.setVisible(false);
-				desplegadoArchivo = false;
-				if(isInsertar){
-					panelClase = new PanelClase(Principal.this);
-
-					if(radioBotonTipoClase.equals("Concreta")){
-						try {
-							diagrama.addClase(new Concreta(nombreClase));
-						} catch (Exception e1) {
-							x=false;
-							ClasesMismoName mismoName = new ClasesMismoName(Principal.this);
-							mismoName.setVisible(true);
-							setEnabled(false);
-						}
-					}
-					else if(radioBotonTipoClase.equals("Abstracta")){
-						try {
-							diagrama.addClase(new Abstracta(nombreClase));
-						} catch (Exception e1) {
-							x=false;
-							ClasesMismoName mismoName = new ClasesMismoName(Principal.this);
-							mismoName.setVisible(true);
-							setEnabled(false);
-						}
-					}
-
-					if(x){
-						panelClase.setVisible(true);
-						if(radioBotonTipoClase.equals("Abstracta"))
-							panelClase.getLblNombreclase().setFont(new Font("Segoe Script", Font.PLAIN, 16));
-						panelClase.getLblNombreclase().setText(nombreClase);	
-						panelClase.setBounds(e.getX(), e.getY(), panelClase.getPreferredSize().width+50, panelClase.getPreferredSize().height+50);
-						panelClase.setMidPoint();
-						lienzo.add(panelClase);
-						
-						lienzo.repaint();
-						lienzo.revalidate();	
-						panelClase.repaint();
-						panelClase.revalidate();
-					}
-					lienzo.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-					isInsertar = false;
-				}
-
-
-			}
-		});
-		lienzo.addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				if(isInsertar)
-					lienzo.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				else if(isEliminar && lienzo.getComponentCount()!=0)
-					lienzo.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				else if(isHerencia){
-					lienzo.setCursor(new Cursor(Cursor.TEXT_CURSOR));
-					if(isHerenciaClase1){
-						lienzo.addFlechaTemporal(flechaInicio, new Point(e.getX(),e.getY()));
-					}
-
-					lienzo.repaint();
-					lienzo.revalidate();
-
-
-				}
-				else if(isEditar)
-					lienzo.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
-				else 
-					lienzo.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-
-			}
-		});
-
+	
 		separator_5 = new JSeparator();
 		separator_5.setForeground(Color.BLACK);
 		separator_5.setBackground(Color.BLACK);
 		separator_5.setBounds(0, 0, 2000, 1);
 		panelContenedor.add(separator_5);
-
-
 
 		lienzo.setBackground(SystemColor.inactiveCaptionBorder);
 		lienzo.setPreferredSize(new Dimension(2000,2000));
@@ -1199,11 +1118,7 @@ public class Principal extends JFrame {
 		panelContenedor.add(scrollPane);
 		lienzo.setLayout(null);
 
-
-
-
-
-
+		accionesLienzo();
 
 	}
 
@@ -1335,6 +1250,88 @@ public class Principal extends JFrame {
 
 	public void setEliminarPressed(boolean isEliminarPressed) {
 		this.isEliminarPressed = isEliminarPressed;
+	}
+	
+	public void accionesLienzo(){
+		lienzo.setComponentPopupMenu(menuLienzo);
+		lienzo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				boolean x=true;
+				panelHerramDesp.setVisible(false);
+				desplegadoHerram = false;
+				panelArchivoDesp.setVisible(false);
+				desplegadoArchivo = false;
+				if(isInsertar){
+					panelClase = new PanelClase(Principal.this);
+
+					if(radioBotonTipoClase.equals("Concreta")){
+						try {
+							diagrama.addClase(new Concreta(nombreClase));
+						} catch (Exception e1) {
+							x=false;
+							ClasesMismoName mismoName = new ClasesMismoName(Principal.this);
+							mismoName.setVisible(true);
+							setEnabled(false);
+						}
+					}
+					else if(radioBotonTipoClase.equals("Abstracta")){
+						try {
+							diagrama.addClase(new Abstracta(nombreClase));
+						} catch (Exception e1) {
+							x=false;
+							ClasesMismoName mismoName = new ClasesMismoName(Principal.this);
+							mismoName.setVisible(true);
+							setEnabled(false);
+						}
+					}
+
+					if(x){
+						panelClase.setVisible(true);
+						if(radioBotonTipoClase.equals("Abstracta"))
+							panelClase.getLblNombreclase().setFont(new Font("Segoe Script", Font.PLAIN, 16));
+						panelClase.getLblNombreclase().setText(nombreClase);	
+						panelClase.setBounds(e.getX(), e.getY(), panelClase.getPreferredSize().width+50, panelClase.getPreferredSize().height+50);
+						panelClase.setMidPoint();
+						lienzo.add(panelClase);
+						
+						lienzo.repaint();
+						lienzo.revalidate();	
+						panelClase.repaint();
+						panelClase.revalidate();
+					}
+					lienzo.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+					isInsertar = false;
+				}
+
+
+			}
+		});
+		lienzo.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				if(isInsertar)
+					lienzo.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				else if(isEliminar && lienzo.getComponentCount()!=0)
+					lienzo.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+				else if(isHerencia){
+					lienzo.setCursor(new Cursor(Cursor.TEXT_CURSOR));
+					if(isHerenciaClase1){
+						lienzo.addFlechaTemporal(flechaInicio, new Point(e.getX(),e.getY()));
+					}
+
+					lienzo.repaint();
+					lienzo.revalidate();
+
+
+				}
+				else if(isEditar)
+					lienzo.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
+				else 
+					lienzo.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+			}
+		});
 	}
 
 
