@@ -1304,7 +1304,6 @@ public class Principal extends JFrame {
 					isInsertar = false;
 				}
 
-
 			}
 		});
 		lienzo.addMouseMotionListener(new MouseMotionAdapter() {
@@ -1323,7 +1322,6 @@ public class Principal extends JFrame {
 					lienzo.repaint();
 					lienzo.revalidate();
 
-
 				}
 				else if(isEditar)
 					lienzo.setCursor(new Cursor(Cursor.E_RESIZE_CURSOR));
@@ -1333,6 +1331,4 @@ public class Principal extends JFrame {
 			}
 		});
 	}
-
-
 }

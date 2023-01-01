@@ -266,6 +266,4 @@ public class PanelClase extends JPanel {
 			}
 		});
 	}
-	
-
 }
