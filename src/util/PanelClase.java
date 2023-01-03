@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Point;
 
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.BoxLayout;
@@ -69,7 +70,7 @@ public class PanelClase extends JPanel {
 		lblNombreclase.setFont(new Font("Microsoft YaHei", Font.PLAIN, 16));
 
 
-		lblNombreclase.setComponentPopupMenu(new MenuContextualClase(PanelClase.this));
+		
 		lblNombreclase.setHorizontalAlignment(SwingConstants.CENTER);
 		panelNombreClase.add(lblNombreclase);
 
@@ -174,7 +175,7 @@ public class PanelClase extends JPanel {
 	
 	public void accionesPanelClase(){
 		setComponentPopupMenu(new MenuContextual(PanelClase.this));
-		
+		accionesLabels();
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -265,5 +266,19 @@ public class PanelClase extends JPanel {
 				}
 			}
 		});
+	}
+	
+	private void accionesLabels(){	
+		lblNombreclase.setComponentPopupMenu(new MenuContextualClase(PanelClase.this));	
+		
+		for (int i = 0; i < panelAtributos.getComponentCount(); i++) {
+			if(panelAtributos.getComponent(i) instanceof LabelAtributo)
+				((LabelAtributo) panelAtributos.getComponent(i)).setComponentPopupMenu(new MenuContextualAtributo(PanelClase.this,((LabelAtributo) panelAtributos.getComponent(i))));
+		}
+		
+		for (int i = 0; i < panelMetodos.getComponentCount(); i++) {
+			if(panelMetodos.getComponent(i) instanceof LabelMetodo)
+				((LabelMetodo) panelMetodos.getComponent(i)).setComponentPopupMenu(new MenuContextualMetodo(PanelClase.this, ((LabelMetodo) panelMetodos.getComponent(i))));
+		}
 	}
 }

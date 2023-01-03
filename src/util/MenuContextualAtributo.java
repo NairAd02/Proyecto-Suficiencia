@@ -1,5 +1,6 @@
 package util;
 
+import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.JMenuItem;
 
@@ -11,19 +12,20 @@ import java.awt.event.MouseEvent;
 
 public class MenuContextualAtributo  extends JPopupMenu{
 	private static final long serialVersionUID = 1L;
+	private JLabel label;
 	
 	private PanelClase pe;
-	public MenuContextualAtributo(PanelClase p){
+	public MenuContextualAtributo(PanelClase p, JLabel l){
 		pe = p;
+		label = l;
 		
 		JMenuItem mntmEliminaratributo = new JMenuItem("EliminarAtributo");
 		mntmEliminaratributo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println(Operaciones.obtenerNombreLabelAtributo(pe.getLabelSeleccionado().getText()));
 				pe.getPe().getDiagrama().eliminarAtributo(pe.getClaseSeleccionada().getLblNombreclase().getText(),
-						Operaciones.obtenerNombreLabelAtributo(pe.getLabelSeleccionado().getText()));
-				pe.getPanelAtributos().remove(pe.getLabelSeleccionado());
+						Operaciones.obtenerNombreLabelAtributo(label.getText()));
+				pe.getPanelAtributos().remove(label);
 				pe.getPanelAtributos().repaint();
 				pe.getPanelAtributos().revalidate();
 			}
@@ -33,7 +35,8 @@ public class MenuContextualAtributo  extends JPopupMenu{
 		mntmModificarAtributo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				ModificarAtributo modiAtri = new ModificarAtributo(pe);
+				
+				ModificarAtributo modiAtri = new ModificarAtributo(pe,label);
 				modiAtri.setVisible(true);
 				pe.getPe().setEnabled(false);
 			}

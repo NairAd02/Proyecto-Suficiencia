@@ -36,16 +36,15 @@ public class Principal extends JFrame {
 	private PanelClase panelClase;
 	private JScrollPane scrollPane;
 	private PantallaCompleta pant;
+	private PanelInicio panelInicio;
 
 	private boolean isHerenciaClase1;
 	private boolean isHerenciaClase2;
 	private boolean isEditar;
-
 	private boolean isInsertar;
 	private boolean isEliminar;
 	private boolean isHerencia;
 	private boolean isRelacionesPressed, isEditarPressed, isEliminarPressed;
-
 	private boolean desplegadoArchivo = false;
 	private boolean desplegadoHerram = false;
 
@@ -212,11 +211,12 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
-		diagrama = Diagrama.getInstance();
-		lienzo = diagrama.getLienzo();
-		
+
 		pant = new PantallaCompleta(Principal.this);
 		pant.setVisible(false);
+		panelInicio = new PanelInicio(Principal.this);
+		panelInicio.setVisible(true);
+
 		isInsertar=false;
 		isEliminar=false;
 		isHerencia=false;
@@ -320,6 +320,9 @@ public class Principal extends JFrame {
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
+				FrameNuevoDiagrama nuevoDiagrama = new FrameNuevoDiagrama(Principal.this);
+				nuevoDiagrama.setVisible(true);
+				setEnabled(false);
 			}
 		});
 		panelArchivoDesp.add(panelNuevo);
@@ -373,14 +376,19 @@ public class Principal extends JFrame {
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				try {
-					ManejoDirectorios.guardarArchivo(diagrama);
-				} catch (FileNotFoundException e1) {
-					
-					e1.printStackTrace();
-				} catch (IOException e1) {
-				
-					e1.printStackTrace();
+				if(diagrama != null){
+
+					try {		
+						guardarDiagrama();
+					} catch (FileNotFoundException e1) {
+
+						e1.printStackTrace();
+					} catch (IOException e1) {
+
+						e1.printStackTrace();
+					}
+					repaint();
+					revalidate();
 				}
 			}
 		});
@@ -503,40 +511,44 @@ public class Principal extends JFrame {
 		subpanel1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				panelHerramDesp.setVisible(false);
-				desplegadoHerram = false;
-				panelArchivoDesp.setVisible(false);
-				desplegadoArchivo = false;
-				menuLienzo.getMntmCancelar().setVisible(false);
-				menuLienzo.getMntmEstablecerRelacin().setVisible(true);
-				lienzo.cancelarHerencia();
-				lienzo.repaint();
-				lienzo.revalidate();
+				if(lblAddClase.isEnabled()){
+					panelHerramDesp.setVisible(false);
+					desplegadoHerram = false;
+					panelArchivoDesp.setVisible(false);
+					desplegadoArchivo = false;
+					menuLienzo.getMntmCancelar().setVisible(false);
+					menuLienzo.getMntmEstablecerRelacin().setVisible(true);
+					lienzo.cancelarHerencia();
+					lienzo.repaint();
+					lienzo.revalidate();
 
 
-				AgregarClase frame = new AgregarClase(Principal.this);
-				frame.setVisible(true);
-				setEnabled(false);
-				inMovilizarClases();
-				isEliminar = false;
-				isEditar = false;
-				isHerencia = false;
-				isHerenciaClase1 = false;
-				isHerenciaClase2 = false;
-				lienzo.cancelarHerencia();
-				lienzo.repaint();
-				lienzo.revalidate();
+					AgregarClase frame = new AgregarClase(Principal.this);
+					frame.setVisible(true);
+					setEnabled(false);
+					inMovilizarClases();
+					isEliminar = false;
+					isEditar = false;
+					isHerencia = false;
+					isHerenciaClase1 = false;
+					isHerenciaClase2 = false;
+					lienzo.cancelarHerencia();
+					lienzo.repaint();
+					lienzo.revalidate();
+				}
 
 
 
 			}
 			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				subpanel1.setBackground(new Color(0, 204, 204));
+			public void mouseEntered(MouseEvent e) {
+				if(lblAddClase.isEnabled())
+					subpanel1.setBackground(new Color(0, 204, 204));
 			}
 			@Override
-			public void mouseExited(MouseEvent arg0) {
-				subpanel1.setBackground(new Color(0,58,87));
+			public void mouseExited(MouseEvent e) {
+				if(lblAddClase.isEnabled())
+					subpanel1.setBackground(new Color(0,58,87));
 			}
 		});
 		subpanel1.setBounds(0, 0, 227, 160);
@@ -545,12 +557,14 @@ public class Principal extends JFrame {
 		subpanel1.setLayout(null);
 
 		lblAddClaseImg = new JLabel("");
+		lblAddClaseImg.setEnabled(false);
 		lblAddClaseImg.setBounds(34, 0, 142, 121);
 
 		subpanel1.add(lblAddClaseImg);
 		lblAddClaseImg.setIcon(new ImageIcon(Principal.class.getResource("/images/card_add.png")));
 
 		lblAddClase = new JLabel("Agregar Clase");
+		lblAddClase.setEnabled(false);
 		lblAddClase.setBounds(44, 120, 137, 39);
 
 		subpanel1.add(lblAddClase);
@@ -568,39 +582,41 @@ public class Principal extends JFrame {
 		subpanel2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				isRelacionesPressed = true;
-				isEliminarPressed = false;
-				isEditarPressed = false;
-				panelHerramDesp.setVisible(false);
-				desplegadoHerram = false;
-				panelArchivoDesp.setVisible(false);
-				desplegadoArchivo = false;
-				if(!isHerencia && lienzo.getComponentCount()>1){
-					SeleccionClaseA sele = new SeleccionClaseA(Principal.this);
-					sele.setVisible(true);
-					setEnabled(false);
-					isHerencia = true;
-					isEditar = false;
-					isInsertar = false;
-					isEliminar = false;
-					menuLienzo.getMntmCancelar().setVisible(true);
-					menuLienzo.getMntmEstablecerRelacin().setVisible(false);
-					
-				}
-				else if (isHerencia){
-					isHerencia = false;
-					isHerenciaClase1 = false;
-					isHerenciaClase2 = false;
-					menuLienzo.getMntmCancelar().setVisible(false);
-					menuLienzo.getMntmEstablecerRelacin().setVisible(true);
-					lienzo.cancelarHerencia();
-					lienzo.repaint();
-					lienzo.revalidate();
-				}
-				else if (lienzo.getComponentCount()<2){
-					AlmenosDos dos = new AlmenosDos(Principal.this);
-					dos.setVisible(true);
-					setEnabled(false);
+				if(lblAddRelacion.isEnabled()){
+					isRelacionesPressed = true;
+					isEliminarPressed = false;
+					isEditarPressed = false;
+					panelHerramDesp.setVisible(false);
+					desplegadoHerram = false;
+					panelArchivoDesp.setVisible(false);
+					desplegadoArchivo = false;
+					if(!isHerencia && lienzo.getComponentCount()>1){
+						SeleccionClaseA sele = new SeleccionClaseA(Principal.this);
+						sele.setVisible(true);
+						setEnabled(false);
+						isHerencia = true;
+						isEditar = false;
+						isInsertar = false;
+						isEliminar = false;
+						menuLienzo.getMntmCancelar().setVisible(true);
+						menuLienzo.getMntmEstablecerRelacin().setVisible(false);
+
+					}
+					else if (isHerencia){
+						isHerencia = false;
+						isHerenciaClase1 = false;
+						isHerenciaClase2 = false;
+						menuLienzo.getMntmCancelar().setVisible(false);
+						menuLienzo.getMntmEstablecerRelacin().setVisible(true);
+						lienzo.cancelarHerencia();
+						lienzo.repaint();
+						lienzo.revalidate();
+					}
+					else if (lienzo.getComponentCount()<2){
+						AlmenosDos dos = new AlmenosDos(Principal.this);
+						dos.setVisible(true);
+						setEnabled(false);
+					}
 				}
 
 				//MensajeError2 frame = new MensajeError2(Principal.this);
@@ -608,24 +624,27 @@ public class Principal extends JFrame {
 				//setEnabled(false);
 			}
 			@Override
-			public void mouseEntered(MouseEvent arg0) {
-
-				subpanel2.setBackground(new Color(0, 204, 204));
+			public void mouseEntered(MouseEvent e) {
+				if(lblAddRelacion.isEnabled())
+					subpanel2.setBackground(new Color(0, 204, 204));
 			}
 			@Override
-			public void mouseExited(MouseEvent arg0) {
-				subpanel2.setBackground(new Color(0,58,87));
+			public void mouseExited(MouseEvent e) {
+				if(lblAddRelacion.isEnabled())
+					subpanel2.setBackground(new Color(0,58,87));
 			}
 		});
 		subpanel2.setLayout(null);
 
 		lblAddRelacionImg = new JLabel("");
+		lblAddRelacionImg.setEnabled(false);
 		lblAddRelacionImg.setBounds(38, 7, 142, 121);
 
 		subpanel2.add(lblAddRelacionImg);
 		lblAddRelacionImg.setIcon(new ImageIcon(Principal.class.getResource("/images/card_tap_down.png")));
 
 		lblAddRelacion = new JLabel("Establecer Relación");
+		lblAddRelacion.setEnabled(false);
 		lblAddRelacion.setBounds(21, 125, 196, 39);
 
 		subpanel2.add(lblAddRelacion);
@@ -642,38 +661,39 @@ public class Principal extends JFrame {
 		subpanel3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
+				if(lblEditarClase.isEnabled()){
+					isRelacionesPressed = false;
+					isEliminarPressed = false;
+					isEditarPressed = true;
+					panelHerramDesp.setVisible(false);
+					desplegadoHerram = false;
+					panelArchivoDesp.setVisible(false);
+					desplegadoArchivo = false;
+					if(!isEditar && lienzo.getComponentCount() !=0){
+						SeleccionClaseA sele = new SeleccionClaseA(Principal.this);
+						sele.setVisible(true);
+						setEnabled(false);
+						isEditar = true;
+						isEliminar = false;
+						isInsertar = false;
+						isHerencia = false;
+						isHerenciaClase1 = false;
+						isHerenciaClase2 = false;
+						menuLienzo.getMntmCancelar().setVisible(false);
+						menuLienzo.getMntmEstablecerRelacin().setVisible(true);
+						lienzo.cancelarHerencia();
+						lienzo.repaint();
+						lienzo.revalidate();
+					}
+					else if (isEditar){
 
-				isRelacionesPressed = false;
-				isEliminarPressed = false;
-				isEditarPressed = true;
-				panelHerramDesp.setVisible(false);
-				desplegadoHerram = false;
-				panelArchivoDesp.setVisible(false);
-				desplegadoArchivo = false;
-				if(!isEditar && lienzo.getComponentCount() !=0){
-					SeleccionClaseA sele = new SeleccionClaseA(Principal.this);
-					sele.setVisible(true);
-					setEnabled(false);
-					isEditar = true;
-					isEliminar = false;
-					isInsertar = false;
-					isHerencia = false;
-					isHerenciaClase1 = false;
-					isHerenciaClase2 = false;
-					menuLienzo.getMntmCancelar().setVisible(false);
-					menuLienzo.getMntmEstablecerRelacin().setVisible(true);
-					lienzo.cancelarHerencia();
-					lienzo.repaint();
-					lienzo.revalidate();
-				}
-				else if (isEditar){
-
-					isEditar = false;
-				}
-				else {
-					AlmenosUna una = new AlmenosUna(Principal.this);
-					una.setVisible(true);
-					setEnabled(false);
+						isEditar = false;
+					}
+					else {
+						AlmenosUna una = new AlmenosUna(Principal.this);
+						una.setVisible(true);
+						setEnabled(false);
+					}
 				}
 
 				/*MensajeError1 frame = new MensajeError1(Principal.this);
@@ -685,17 +705,20 @@ public class Principal extends JFrame {
 			}
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				subpanel3.setBackground(new Color(0, 204, 204));
+				if(lblEditarClase.isEnabled())
+					subpanel3.setBackground(new Color(0, 204, 204));
 			}
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				subpanel3.setBackground(new Color(0,58,87));
+				if(lblEditarClase.isEnabled())
+					subpanel3.setBackground(new Color(0,58,87));
 			}
 		});
 		panelLateral.add(subpanel3);
 		subpanel2.setLayout(null);
 
 		lblEditarClase = new JLabel("   Editar Clase");
+		lblEditarClase.setEnabled(false);
 		lblEditarClase.setBounds(41, 123, 137, 25);
 		subpanel3.setLayout(null);
 		subpanel3.add(lblEditarClase);
@@ -703,6 +726,7 @@ public class Principal extends JFrame {
 		lblEditarClase.setFont(new Font("Dialog", Font.BOLD, 19));
 
 		lblEditarClaseImg = new JLabel("");
+		lblEditarClaseImg.setEnabled(false);
 		lblEditarClaseImg.setBounds(50, 5, 128, 117);
 		subpanel3.add(lblEditarClaseImg);
 		lblEditarClaseImg.setIcon(new ImageIcon(Principal.class.getResource("/images/notepad.png")));
@@ -719,59 +743,65 @@ public class Principal extends JFrame {
 		subpanel4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				isRelacionesPressed = false;
-				isEliminarPressed = true;
-				isEditarPressed = false;
-				panelHerramDesp.setVisible(false);
-				desplegadoHerram = false;
-				panelArchivoDesp.setVisible(false);
-				desplegadoArchivo = false;
-				if(!isEliminar && lienzo.getComponentCount()!=0){
-					SeleccionClaseA sele = new SeleccionClaseA(Principal.this);
-					sele.setVisible(true);
-					setEnabled(false);
-					isEliminar=true;
-					isInsertar=false;
-					isEditar = false;
-					isHerencia = false;
-					isHerenciaClase1 = false;
-					isHerenciaClase2 = false;
-					menuLienzo.getMntmCancelar().setVisible(false);
-					menuLienzo.getMntmEstablecerRelacin().setVisible(true);
-					lienzo.cancelarHerencia();
-					lienzo.repaint();
-					lienzo.revalidate();
+				if(lblEliminarClase.isEnabled()){
+					isRelacionesPressed = false;
+					isEliminarPressed = true;
+					isEditarPressed = false;
+					panelHerramDesp.setVisible(false);
+					desplegadoHerram = false;
+					panelArchivoDesp.setVisible(false);
+					desplegadoArchivo = false;
+					if(!isEliminar && lienzo.getComponentCount()!=0){
+						SeleccionClaseA sele = new SeleccionClaseA(Principal.this);
+						sele.setVisible(true);
+						setEnabled(false);
+						isEliminar=true;
+						isInsertar=false;
+						isEditar = false;
+						isHerencia = false;
+						isHerenciaClase1 = false;
+						isHerenciaClase2 = false;
+						menuLienzo.getMntmCancelar().setVisible(false);
+						menuLienzo.getMntmEstablecerRelacin().setVisible(true);
+						lienzo.cancelarHerencia();
+						lienzo.repaint();
+						lienzo.revalidate();
 
-				}
-				else if (isEliminar){
+					}
+					else if (isEliminar){
 
-					isEliminar = false;
-				}
-				else {
-					AlmenosUna una = new AlmenosUna(Principal.this);
-					una.setVisible(true);
-					setEnabled(false);
+						isEliminar = false;
+					}
+					else {
+						AlmenosUna una = new AlmenosUna(Principal.this);
+						una.setVisible(true);
+						setEnabled(false);
+					}
 				}
 
 			}
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				subpanel4.setBackground(new Color(0, 204, 204));
+				if(lblEliminarClase.isEnabled())
+					subpanel4.setBackground(new Color(0, 204, 204));
 			}
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				subpanel4.setBackground(new Color(0,58,87));
+				if(lblEliminarClase.isEnabled())
+					subpanel4.setBackground(new Color(0,58,87));
 			}
 		});
 		panelLateral.add(subpanel4);
 		subpanel4.setLayout(null);
 
 		lblEliminarClaseImg = new JLabel("");
+		lblEliminarClaseImg.setEnabled(false);
 		lblEliminarClaseImg.setBounds(40, 4, 142, 121);
 		subpanel4.add(lblEliminarClaseImg);
 		lblEliminarClaseImg.setIcon(new ImageIcon(Principal.class.getResource("/images/card_remove.png")));
 
 		lblEliminarClase = new JLabel("Eliminar Clase");
+		lblEliminarClase.setEnabled(false);
 		lblEliminarClase.setBounds(48, 118, 158, 39);
 		subpanel4.add(lblEliminarClase);
 		lblEliminarClase.setForeground(Color.WHITE);
@@ -874,9 +904,11 @@ public class Principal extends JFrame {
 					isHerenciaClase2 = false;
 					menuLienzo.getMntmCancelar().setVisible(false);
 					menuLienzo.getMntmEstablecerRelacin().setVisible(true);
-					lienzo.cancelarHerencia();
-					lienzo.repaint();
-					lienzo.revalidate();
+					if(lienzo != null){
+						lienzo.cancelarHerencia();
+						lienzo.repaint();
+						lienzo.revalidate();
+					}
 					panelArchivoDesp.setVisible(true);
 					panelHerramDesp.setVisible(false);
 					desplegadoArchivo = true;
@@ -920,49 +952,57 @@ public class Principal extends JFrame {
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				if(desplegadoHerram){
-					panelHerramDesp.setVisible(false);
-					desplegadoHerram = false;
-				}
-				else{
-					isHerencia = false;
-					isEditar = false;
-					isEliminar = false;
-					isRelacionesPressed = false;
-					isEditarPressed = false;
-					isEliminarPressed = false;
-					isHerenciaClase1 = false;
-					isHerenciaClase2 = false;
-					menuLienzo.getMntmCancelar().setVisible(false);
-					menuLienzo.getMntmEstablecerRelacin().setVisible(true);
-					lienzo.cancelarHerencia();
-					lienzo.repaint();
-					lienzo.revalidate();
-					panelHerramDesp.setVisible(true);
-					panelArchivoDesp.setVisible(false);
-					desplegadoHerram = true;
-					desplegadoArchivo = false;
+				if(lblHerramientas.isEnabled()){
+					if(desplegadoHerram){
+						panelHerramDesp.setVisible(false);
+						desplegadoHerram = false;
+					}
+					else{
+						isHerencia = false;
+						isEditar = false;
+						isEliminar = false;
+						isRelacionesPressed = false;
+						isEditarPressed = false;
+						isEliminarPressed = false;
+						isHerenciaClase1 = false;
+						isHerenciaClase2 = false;
+						menuLienzo.getMntmCancelar().setVisible(false);
+						menuLienzo.getMntmEstablecerRelacin().setVisible(true);
+						if(lienzo != null){
+							lienzo.cancelarHerencia();
+							lienzo.repaint();
+							lienzo.revalidate();
+						}
+						panelHerramDesp.setVisible(true);
+						panelArchivoDesp.setVisible(false);
+						desplegadoHerram = true;
+						desplegadoArchivo = false;
+					}
 				}
 
 
 			}
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				panelHerram.setBackground(new Color(201,218,255));
+				if(lblHerramientas.isEnabled())
+					panelHerram.setBackground(new Color(201,218,255));
 			}
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				panelHerram.setBackground(SystemColor.white);
+				if(lblHerramientas.isEnabled())
+					panelHerram.setBackground(SystemColor.white);
 			}
 		});
 		panelMenu.add(panelHerram);
 
 		lblHerramientas = new JLabel("Herramientas");
+		lblHerramientas.setEnabled(false);
 		lblHerramientas.setFont(new Font("Dialog", Font.BOLD, 16));
 		lblHerramientas.setBounds(63, 11, 126, 28);
 		panelHerram.add(lblHerramientas);
 
 		lblHerramientasImg = new JLabel("");
+		lblHerramientasImg.setEnabled(false);
 		lblHerramientasImg.setIcon(new ImageIcon(Principal.class.getResource("/images/wrench.png")));
 		lblHerramientasImg.setBounds(5, 0, 50, 50);
 		panelHerram.add(lblHerramientasImg);
@@ -990,9 +1030,11 @@ public class Principal extends JFrame {
 				isHerenciaClase2 = false;
 				menuLienzo.getMntmCancelar().setVisible(false);
 				menuLienzo.getMntmEstablecerRelacin().setVisible(true);
-				lienzo.cancelarHerencia();
-				lienzo.repaint();
-				lienzo.revalidate();
+				if(lienzo != null){
+					lienzo.cancelarHerencia();
+					lienzo.repaint();
+					lienzo.revalidate();
+				}
 				panelHerramDesp.setVisible(false);
 				desplegadoHerram = false;
 				panelArchivoDesp.setVisible(false);
@@ -1045,9 +1087,11 @@ public class Principal extends JFrame {
 				isHerenciaClase2 = false;
 				menuLienzo.getMntmCancelar().setVisible(false);
 				menuLienzo.getMntmEstablecerRelacin().setVisible(true);
-				lienzo.cancelarHerencia();
-				lienzo.repaint();
-				lienzo.revalidate();
+				if(lienzo != null){
+					lienzo.cancelarHerencia();
+					lienzo.repaint();
+					lienzo.revalidate();
+				}
 				panelHerramDesp.setVisible(false);
 				desplegadoHerram = false;
 				panelArchivoDesp.setVisible(false);
@@ -1096,7 +1140,7 @@ public class Principal extends JFrame {
 		separator_10.setOrientation(SwingConstants.VERTICAL);
 		separator_10.setForeground(Color.BLACK);
 		separator_10.setBackground(Color.BLACK);
-		
+
 		separator5 = new JSeparator();
 		separator5.setForeground(Color.BLACK);
 		separator5.setOrientation(SwingConstants.VERTICAL);
@@ -1105,20 +1149,19 @@ public class Principal extends JFrame {
 		panelMenu.add(separator5);
 
 		menuLienzo = new  MenuContextualLienzo(Principal.this);
-	
+
 		separator_5 = new JSeparator();
 		separator_5.setForeground(Color.BLACK);
 		separator_5.setBackground(Color.BLACK);
 		separator_5.setBounds(0, 0, 2000, 1);
 		panelContenedor.add(separator_5);
 
-		lienzo.setBackground(SystemColor.inactiveCaptionBorder);
-		lienzo.setPreferredSize(new Dimension(2000,2000));
-		scrollPane.setViewportView(lienzo);
-		panelContenedor.add(scrollPane);
-		lienzo.setLayout(null);
 
-		accionesLienzo();
+		scrollPane.setViewportView(panelInicio);
+		panelContenedor.add(scrollPane);
+
+
+
 
 	}
 
@@ -1134,7 +1177,7 @@ public class Principal extends JFrame {
 
 		for(int i = 0; i < panelClase.length; i++) {
 			if(panelClase[i] instanceof PanelClase)
-			((PanelClase)panelClase[i]).setMover(false);
+				((PanelClase)panelClase[i]).setMover(false);
 		}
 	}
 
@@ -1251,8 +1294,11 @@ public class Principal extends JFrame {
 	public void setEliminarPressed(boolean isEliminarPressed) {
 		this.isEliminarPressed = isEliminarPressed;
 	}
-	
+
 	public void accionesLienzo(){
+		lienzo.setBackground(SystemColor.inactiveCaptionBorder);
+		lienzo.setPreferredSize(new Dimension(2000,2000));
+		lienzo.setLayout(null);
 		lienzo.setComponentPopupMenu(menuLienzo);
 		lienzo.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1294,7 +1340,7 @@ public class Principal extends JFrame {
 						panelClase.setBounds(e.getX(), e.getY(), panelClase.getPreferredSize().width+50, panelClase.getPreferredSize().height+50);
 						panelClase.setMidPoint();
 						lienzo.add(panelClase);
-						
+
 						lienzo.repaint();
 						lienzo.revalidate();	
 						panelClase.repaint();
@@ -1330,5 +1376,34 @@ public class Principal extends JFrame {
 
 			}
 		});
+	}
+
+	public void actualizarAccionesLienzo(){
+		accionesLienzo();
+
+		for (int i = 0; i < lienzo.getComponentCount(); i++) {
+			if(lienzo.getComponent(i) instanceof PanelClase){
+				((PanelClase)lienzo.getComponent(i)).accionesPanelClase();
+				((PanelClase)lienzo.getComponent(i)).setPe(Principal.this);
+			}
+
+		}
+	}
+
+	public void habilitarPrograma(){
+		lblAddClaseImg.setEnabled(true);
+		lblAddClase.setEnabled(true);
+		lblAddRelacion.setEnabled(true);
+		lblAddRelacionImg.setEnabled(true);
+		lblEditarClaseImg.setEnabled(true);
+		lblEditarClase.setEnabled(true);
+		lblEliminarClaseImg.setEnabled(true);
+		lblEliminarClase.setEnabled(true);
+		lblHerramientas.setEnabled(true);
+		lblHerramientasImg.setEnabled(true);
+	}
+
+	public void guardarDiagrama() throws FileNotFoundException, IOException{
+		ManejoDirectorios.guardarArchivo(diagrama);
 	}
 }

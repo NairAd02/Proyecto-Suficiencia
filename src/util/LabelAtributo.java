@@ -22,7 +22,7 @@ public class LabelAtributo extends JLabel {
 	 	});
 		 pe = p;
 		 setText(cadena);
-		 setComponentPopupMenu(new MenuContextualAtributo(pe));
+		 setComponentPopupMenu(new MenuContextualAtributo(pe,LabelAtributo.this));
 		 
 		 
 		 

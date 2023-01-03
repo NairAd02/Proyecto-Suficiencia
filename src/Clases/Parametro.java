@@ -14,4 +14,13 @@ public class Parametro extends Variable implements Serializable {
 		
 	}
 	
+	public boolean equals(Parametro p){
+		boolean verificador = false;
+		
+		if(this.equalsTipoDato(p))
+			verificador = true;
+		
+		return verificador;
+	}
+	
 }

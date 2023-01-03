@@ -36,6 +36,35 @@ public class Atributo extends Variable implements Serializable{
 	    	throw new IllegalArgumentException();
 	    	
 	}
+	
+	public boolean equals(Atributo a){
+		boolean verificador = false;
+		
+		if(this.equalsNombre(a) && this.equalsVisibilidad(a) && this.equalsTipoDato(a))
+			verificador = true;
+		
+		return verificador;
+	}
+	
+	private boolean equalsNombre(Atributo a){
+		boolean verificador = false;
+		
+		if(this.nombre.equals(a.getNombre()))
+			verificador = true;
+		
+		return verificador;
+	}
+	
+	private boolean equalsVisibilidad(Atributo a){
+		boolean verificador = false;
+		
+		if(this.visibilidad.equals(a.getVisibilidad()))
+			verificador = true;
+		
+		return verificador;
+	}
+	
+	
 
 	
 

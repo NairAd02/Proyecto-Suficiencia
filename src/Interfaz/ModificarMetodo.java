@@ -63,6 +63,7 @@ public class ModificarMetodo extends JFrame {
 	private JLabel lblRemover;
 	private JLabel labelRojoParametros;
 	private JLabel label;
+	private JLabel labelSeleccionado;
 
 
 
@@ -74,8 +75,9 @@ public class ModificarMetodo extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ModificarMetodo(PanelClase p) {
+	public ModificarMetodo(PanelClase p, JLabel l) {
 		pe = p;
+		labelSeleccionado = l;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(0, 0, 609, 304);
 		setUndecorated(true);
@@ -215,11 +217,11 @@ public class ModificarMetodo extends JFrame {
 
 		comboBoxAcceso = new JComboBox<String>();
 		comboBoxAcceso.setModel(new DefaultComboBoxModel<String>(new String[] {"public", "private", "protected"}));
-		if(Operaciones.obtenerModificadorAccesoAtributo(pe.getLabelSeleccionado().getText()).equals("+"))
+		if(Operaciones.obtenerModificadorAccesoAtributo(labelSeleccionado.getText()).equals("+"))
 			comboBoxAcceso.setSelectedIndex(0);
-		else if(Operaciones.obtenerModificadorAccesoAtributo(pe.getLabelSeleccionado().getText()).equals("-"))
+		else if(Operaciones.obtenerModificadorAccesoAtributo(labelSeleccionado.getText()).equals("-"))
 			comboBoxAcceso.setSelectedIndex(1);
-		else if(Operaciones.obtenerModificadorAccesoAtributo(pe.getLabelSeleccionado().getText()).equals("#"))
+		else if(Operaciones.obtenerModificadorAccesoAtributo(labelSeleccionado.getText()).equals("#"))
 			comboBoxAcceso.setSelectedIndex(2);
 
 		comboBoxAcceso.setFont(new Font("Dialog", Font.BOLD, 13));
@@ -241,7 +243,7 @@ public class ModificarMetodo extends JFrame {
 		labelNombre.setBounds(71, 180, 68, 25);
 		contentPane.add(labelNombre);
 
-		textFieldNombre = new JTextField(Operaciones.obtenerNombreLabelMetodo(pe.getLabelSeleccionado().getText()));
+		textFieldNombre = new JTextField(Operaciones.obtenerNombreLabelMetodo(labelSeleccionado.getText()));
 		textFieldNombre.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
@@ -253,12 +255,12 @@ public class ModificarMetodo extends JFrame {
 		textFieldNombre.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(textFieldNombre.getText().equals(Operaciones.obtenerNombreLabelMetodo(pe.getLabelSeleccionado().getText()))){
+				if(textFieldNombre.getText().equals(Operaciones.obtenerNombreLabelMetodo(labelSeleccionado.getText()))){
 					textFieldNombre.setText("");
 					textFieldNombre.setForeground(Color.black);
 				}
 				if(textFieldTipoDato.getText().equals("")){
-					textFieldTipoDato.setText(Operaciones.obtenerTipoDatoLabel(pe.getLabelSeleccionado().getText()));
+					textFieldTipoDato.setText(Operaciones.obtenerTipoDatoLabel(labelSeleccionado.getText()));
 					textFieldTipoDato.setForeground(Color.lightGray);
 				}
 			}
@@ -268,7 +270,7 @@ public class ModificarMetodo extends JFrame {
 		contentPane.add(textFieldNombre);
 		textFieldNombre.setColumns(10);
 
-		textFieldTipoDato = new JTextField(Operaciones.obtenerTipoDatoLabel(pe.getLabelSeleccionado().getText()));
+		textFieldTipoDato = new JTextField(Operaciones.obtenerTipoDatoLabel(labelSeleccionado.getText()));
 		textFieldTipoDato.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
@@ -280,12 +282,12 @@ public class ModificarMetodo extends JFrame {
 		textFieldTipoDato.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				if(textFieldTipoDato.getText().equals(Operaciones.obtenerTipoDatoLabel(pe.getLabelSeleccionado().getText()))){
+				if(textFieldTipoDato.getText().equals(Operaciones.obtenerTipoDatoLabel(labelSeleccionado.getText()))){
 					textFieldTipoDato.setText("");
 					textFieldTipoDato.setForeground(Color.black);
 				}
 				if(textFieldNombre.getText().equals("")){
-					textFieldNombre.setText(Operaciones.obtenerNombreLabelMetodo(pe.getLabelSeleccionado().getText()));
+					textFieldNombre.setText(Operaciones.obtenerNombreLabelMetodo(labelSeleccionado.getText()));
 					textFieldNombre.setForeground(Color.lightGray);
 				}
 			}
@@ -420,7 +422,7 @@ public class ModificarMetodo extends JFrame {
 		rdbtnConcreto.setBounds(149, 83, 91, 23);
 		contentPane.add(rdbtnConcreto);
 
-		if(pe.getLabelSeleccionado().getFont().equals(new Font("Segoe Script", Font.PLAIN, 16)))
+		if(labelSeleccionado.getFont().equals(new Font("Segoe Script", Font.PLAIN, 16)))
 			rdbtnAbstracto.setSelected(true);
 		else
 			rdbtnConcreto.setSelected(true);
@@ -429,7 +431,7 @@ public class ModificarMetodo extends JFrame {
 		bg.add(rdbtnConcreto);
 		bg.add(rdbtnAbstracto);
 
-		lblNewLabel = new JLabel(pe.getLabelSeleccionado().getText());
+		lblNewLabel = new JLabel(labelSeleccionado.getText());
 		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 16));
 		lblNewLabel.setBounds(169, 13, 206, 35);
 		contentPane.add(lblNewLabel);
@@ -532,7 +534,7 @@ public class ModificarMetodo extends JFrame {
 	}
 	public void modificarMetodoUml(){
 		String acceso = null;
-		pe.getLabelSeleccionado().setFont(font);
+		labelSeleccionado.setFont(font);
 
 		if(String.valueOf(comboBoxAcceso.getSelectedItem()).equals("private"))
 			acceso = "-";
@@ -542,10 +544,10 @@ public class ModificarMetodo extends JFrame {
 			acceso = "#";
 
 		if(obtenerStringsTabla().size()!=0)
-			pe.getLabelSeleccionado().setText(acceso+" "+textFieldNombre.getText()+"("+mostrarParametros(obtenerStringsTabla())+")"+
+			labelSeleccionado.setText(acceso+" "+textFieldNombre.getText()+"("+mostrarParametros(obtenerStringsTabla())+")"+
 					":"+" "+textFieldTipoDato.getText());
 		else
-			pe.getLabelSeleccionado().setText(acceso+" "+textFieldNombre.getText()+"()"+
+			labelSeleccionado.setText(acceso+" "+textFieldNombre.getText()+"()"+
 					":"+" "+textFieldTipoDato.getText());
 
 
@@ -559,8 +561,8 @@ public class ModificarMetodo extends JFrame {
 	
 	public void modificarMetodoDiagrama() throws Exception{
 		pe.getPe().getDiagrama().modificarMetodo(pe.getClaseSeleccionada().getLblNombreclase().getText(), 
-				Operaciones.obtenerNombreLabelMetodo(pe.getLabelSeleccionado().getText()), 
-				Operaciones.obtenerParamtrosLabel(pe.getLabelSeleccionado().getText()), new Metodo(textFieldNombre.getText(),
+				Operaciones.obtenerNombreLabelMetodo(labelSeleccionado.getText()), 
+				Operaciones.obtenerParamtrosLabel(labelSeleccionado.getText()), new Metodo(textFieldNombre.getText(),
 						String.valueOf(comboBoxAcceso.getSelectedItem()),isAbstracto,
 						textFieldTipoDato.getText(), obtenerParametrosTabla()));
 	}
@@ -577,10 +579,20 @@ public class ModificarMetodo extends JFrame {
 	}
 
 	private void addParametrosDefualtTable(){
-		ArrayList<String> parametrosLabel = Operaciones.obtenerParamtrosLabel(pe.getLabelSeleccionado().getText());
+		ArrayList<String> parametrosLabel = Operaciones.obtenerParamtrosLabel(labelSeleccionado.getText());
 
 		for(int i=0; i<parametrosLabel.size();i++){
 			((ParametroTableModel) table.getModel()).adicionar(new Parametro(parametrosLabel.get(i)));
 		}
 	}
+
+	public JLabel getLabelSeleccionado() {
+		return labelSeleccionado;
+	}
+
+	public void setLabelSeleccionado(JLabel labelSeleccionado) {
+		this.labelSeleccionado = labelSeleccionado;
+	}
+	
+	
 }

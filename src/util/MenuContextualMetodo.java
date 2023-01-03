@@ -1,5 +1,6 @@
 package util;
 
+import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.JMenuItem;
 
@@ -13,18 +14,18 @@ public class MenuContextualMetodo extends JPopupMenu {
 	private static final long serialVersionUID = 1L;
 	
 	private PanelClase pe;
-	public MenuContextualMetodo(PanelClase p) {
+	private JLabel label;
+	public MenuContextualMetodo(PanelClase p, JLabel l) {
 		pe = p;
+		label = l;
 		JMenuItem mntmEliminarMetodo = new JMenuItem("Eliminar Metodo");
 		mntmEliminarMetodo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 
-				System.out.println(Operaciones.obtenerParamtrosLabel(pe.getLabelSeleccionado().getText()).size());
-
                 pe.getPe().getDiagrama().eliminarMetodo(pe.getClaseSeleccionada().getLblNombreclase().getText(),
-                		Operaciones.obtenerNombreLabelMetodo(pe.getLabelSeleccionado().getText()), Operaciones.obtenerParamtrosLabel(pe.getLabelSeleccionado().getText()));
-				pe.getPanelMetodos().remove(pe.getLabelSeleccionado());
+                		Operaciones.obtenerNombreLabelMetodo(label.getText()), Operaciones.obtenerParamtrosLabel(label.getText()));
+				pe.getPanelMetodos().remove(label);
 				pe.getPanelMetodos().repaint();
 				pe.getPanelMetodos().revalidate();
 			}
@@ -34,7 +35,7 @@ public class MenuContextualMetodo extends JPopupMenu {
 		mntmModificarMetodo.addMouseListener(new MouseAdapter()  {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				ModificarMetodo modiMetod = new ModificarMetodo(pe);
+				ModificarMetodo modiMetod = new ModificarMetodo(pe,label);
 				modiMetod.setVisible(true);
 				pe.getPe().setEnabled(false);
 			}

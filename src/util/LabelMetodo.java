@@ -25,7 +25,7 @@ public class LabelMetodo extends JLabel {
 			setFont(new Font("Segoe Script", Font.PLAIN, 16));
 		 setText(cadena);
 		 
-		 setComponentPopupMenu(new MenuContextualMetodo(pe));
+		 setComponentPopupMenu(new MenuContextualMetodo(pe, LabelMetodo.this));
 	}
 
 }

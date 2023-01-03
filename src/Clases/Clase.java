@@ -15,14 +15,7 @@ public abstract class Clase implements Serializable  {
 	protected Clase padre;
 	protected ArrayList<Clase> hijos;
 
-	public ArrayList<Clase> getHijos() {
-		
-		return hijos;
-	}
-
-	public Clase getPadre() {
-		return padre;
-	}
+	
 
 	public Clase(String nombre) throws Exception {
 
@@ -32,16 +25,25 @@ public abstract class Clase implements Serializable  {
 		this.atributos = new ArrayList<Atributo>();
 		this.metodos = new ArrayList<Metodo>();
 	}
+	
+	public ArrayList<Clase> getHijos() {
+
+		return this.hijos;
+	}
+
+	public Clase getPadre() {
+		return this.padre;
+	}
 
 
 
 	public String getNombre() {
-		
+
 		return nombre;
 	}
 
 	public void setNombre(String nombre) throws Exception {
-		
+
 		if(nombre!=null && !nombre.equals(""))
 			this.nombre = nombre;
 		else
@@ -49,7 +51,7 @@ public abstract class Clase implements Serializable  {
 	}
 
 	public void addPadre(Clase padre){
-		
+
 		if(padre!=null)
 			this.padre=padre;
 		else
@@ -58,7 +60,7 @@ public abstract class Clase implements Serializable  {
 	}
 
 	public void addHijo(Clase hijo){
-		
+
 		this.hijos.add(hijo);
 
 	}
@@ -172,6 +174,18 @@ public abstract class Clase implements Serializable  {
 		return x;
 
 	}
+	
+	public void modificarHijo(Clase claseVieja, Clase claseNueva){
+		boolean parada = false;
+		for(int i = 0; i<this.hijos.size() && !parada; i++){
+			if(this.hijos.get(i).equals(claseVieja)){
+				this.hijos.set(i, claseNueva);
+				parada = true;
+			}
+		}
+	}
+	
+	
 
 	public boolean isMiHijo(Clase clase){
 		boolean validator = false;
@@ -452,12 +466,12 @@ public abstract class Clase implements Serializable  {
 
 		return metodo;
 	}
-	
+
 	public boolean isDescendiente(Clase clase){
 		boolean veredicto = false;
-		
+
 		if(this.hijos.size()!=0){
-				
+
 			for(int i = 0; i < this.hijos.size() && veredicto == false; i++){			
 				if(this.hijos.get(i).equals(clase)){
 					veredicto = true;
@@ -466,12 +480,12 @@ public abstract class Clase implements Serializable  {
 					veredicto = this.hijos.get(i).isDescendiente(clase);
 				}
 			}
-			
+
 		}
-		
-		
+
+
 		return veredicto;
-		
+
 	}
 
 	protected int buscarMetodoPosicion(String nombreMetodo, ArrayList<String> parametros){
@@ -488,11 +502,82 @@ public abstract class Clase implements Serializable  {
 
 		return posicion;
 	}
+
+	public boolean equals(Clase c){
+		boolean verificador = false;
+
+		if(this.equalsNombre(c) && this.equalsAtributos(c) && this.equalsHijos(c) && this.equalsMetodos(c))
+			verificador = true;
+
+		return verificador;
+
+	}
+
+	private boolean equalsNombre(Clase c){
+		boolean verificador = false;
+
+		if(c.getNombre().equals(this.nombre))
+			verificador = true;
+
+		return verificador;
+
+	}
+
+	private boolean equalsMetodos(Clase c){
+		boolean verificador = true;
+		ArrayList<Metodo> m = c.getMetodos(); 
+
+		if(this.metodos.size() == m.size()){
+			for (int i = 0; i < this.metodos.size() && verificador; i++) {
+				if(!this.metodos.get(i).equals(m.get(i)))
+					verificador = false;	
+			}
+		}
+		else
+			verificador = false;
+
+		return verificador;
+
+	}
+
+	private boolean equalsAtributos(Clase c){
+		boolean verificador = true;
+		ArrayList<Atributo> a = c.getAtributos(); 
+
+		if(this.atributos.size() == a.size()){
+			for (int i = 0; i < this.atributos.size() && verificador; i++) {
+				if(!this.atributos.get(i).equals(a.get(i)))
+					verificador = false;	
+			}
+		}
+		else
+			verificador = false;
+
+		return verificador;
+
+	}
+
+	private boolean equalsHijos(Clase c){
+		boolean verificador = true;
+		ArrayList<Clase> cc = c.getHijos(); 
+
+		if(this.hijos.size() == cc.size()){
+			
+			for (int i = 0; i < this.hijos.size() && verificador; i++) {
+				
+				if(!this.hijos.get(i).equals(cc.get(i)))
+					verificador = false;
+				System.out.println("as");
+			}
+		}
+		else
+			verificador = false;
+
+		return verificador;
+
+	}
+
 	
-	
-
-
-
 
 	public ArrayList<Metodo> getMetodos() {
 		return metodos;

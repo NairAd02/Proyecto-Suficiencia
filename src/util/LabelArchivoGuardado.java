@@ -45,7 +45,8 @@ public class LabelArchivoGuardado extends JLabel{
 					pe.setDiagrama(diagrama);
 					pe.setLienzo(diagrama.getLienzo());	
 					pe.getScrollPane().setViewportView(pe.getLienzo());
-					actualizarAccionesLienzo();
+					pe.actualizarAccionesLienzo();
+					pe.habilitarPrograma();
 					pe.getLienzo().repaint();
 					pe.getLienzo().revalidate();
 					pe.repaint();
@@ -72,15 +73,5 @@ public class LabelArchivoGuardado extends JLabel{
 
 	}
 	
-	private void actualizarAccionesLienzo(){
-		pe.accionesLienzo();
-		
-		for (int i = 0; i < pe.getLienzo().getComponentCount(); i++) {
-			if(pe.getLienzo().getComponent(i) instanceof PanelClase){
-				((PanelClase)pe.getLienzo().getComponent(i)).accionesPanelClase();
-				((PanelClase)pe.getLienzo().getComponent(i)).setPe(pe);
-			}
-			
-		}
-	}
+	
 }

@@ -42,13 +42,15 @@ public class ModificarAtributo extends JFrame {
 	private int mouseY;
 	private JLabel lblNewLabel;
 	private JLabel lblRojo;
+	private JLabel labelSeleccionado;
 
 
 	/**
 	 * Create the frame.
 	 */
-	public ModificarAtributo(PanelClase p) {
+	public ModificarAtributo(PanelClase p, JLabel l) {
 		pe = p;
+		labelSeleccionado = l;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(0, 0, 391, 280);
 		setUndecorated(true);
@@ -91,7 +93,7 @@ public class ModificarAtributo extends JFrame {
         
 				try {
 					pe.getPe().getDiagrama().modificarAtributo(pe.getClaseSeleccionada().getLblNombreclase().getText()
-							,Operaciones.obtenerNombreLabelAtributo(pe.getLabelSeleccionado().getText()),
+							,Operaciones.obtenerNombreLabelAtributo(labelSeleccionado.getText()),
 							new Atributo(textFieldNombre.getText(), textFieldTipoDato.getText(), String.valueOf(comboBoxAcceso.getSelectedItem())));
 				} catch (Exception e1) {
 					AtributosMismoName sameName = new AtributosMismoName(ModificarAtributo.this);
@@ -111,7 +113,7 @@ public class ModificarAtributo extends JFrame {
 
 
 
-					pe.getClaseSeleccionada().getLabelSeleccionado().setText(acceso+" "+textFieldNombre.getText()+
+					labelSeleccionado.setText(acceso+" "+textFieldNombre.getText()+
 							":"+" "+textFieldTipoDato.getText());
 					pe.getPe().repintarClase(pe);
 					pe.getClaseSeleccionada().repaint();
@@ -177,11 +179,11 @@ public class ModificarAtributo extends JFrame {
 
 		comboBoxAcceso = new JComboBox<String>();
 		comboBoxAcceso.setModel(new DefaultComboBoxModel(new String[] {"public", "private", "protected"}));
-		if(Operaciones.obtenerModificadorAccesoAtributo(pe.getLabelSeleccionado().getText()).equals("+"))
+		if(Operaciones.obtenerModificadorAccesoAtributo(labelSeleccionado.getText()).equals("+"))
 			comboBoxAcceso.setSelectedIndex(0);
-		else if(Operaciones.obtenerModificadorAccesoAtributo(pe.getLabelSeleccionado().getText()).equals("-"))
+		else if(Operaciones.obtenerModificadorAccesoAtributo(labelSeleccionado.getText()).equals("-"))
 			comboBoxAcceso.setSelectedIndex(1);
-		else if(Operaciones.obtenerModificadorAccesoAtributo(pe.getLabelSeleccionado().getText()).equals("#"))
+		else if(Operaciones.obtenerModificadorAccesoAtributo(labelSeleccionado.getText()).equals("#"))
 			comboBoxAcceso.setSelectedIndex(2);
 
 		comboBoxAcceso.setFont(new Font("Dialog", Font.BOLD, 13));
@@ -204,7 +206,7 @@ public class ModificarAtributo extends JFrame {
 		labelNombre.setBounds(42, 110, 68, 25);
 		contentPane.add(labelNombre);
 
-		textFieldNombre = new JTextField(Operaciones.obtenerNombreLabelAtributo(pe.getLabelSeleccionado().getText()));
+		textFieldNombre = new JTextField(Operaciones.obtenerNombreLabelAtributo(labelSeleccionado.getText()));
 		textFieldNombre.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
@@ -216,12 +218,12 @@ public class ModificarAtributo extends JFrame {
 		textFieldNombre.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(textFieldNombre.getText().equals(Operaciones.obtenerNombreLabelAtributo(pe.getLabelSeleccionado().getText()))){
+				if(textFieldNombre.getText().equals(Operaciones.obtenerNombreLabelAtributo(labelSeleccionado.getText()))){
 					textFieldNombre.setText("");
 					textFieldNombre.setForeground(Color.black);
 				}
 				if(textFieldTipoDato.getText().equals("")){
-					textFieldTipoDato.setText(Operaciones.obtenerTipoDatoLabel(pe.getLabelSeleccionado().getText()));
+					textFieldTipoDato.setText(Operaciones.obtenerTipoDatoLabel(labelSeleccionado.getText()));
 					textFieldTipoDato.setForeground(Color.lightGray);
 				}
 			}
@@ -230,7 +232,7 @@ public class ModificarAtributo extends JFrame {
 		contentPane.add(textFieldNombre);
 		textFieldNombre.setColumns(10);
 
-		textFieldTipoDato = new JTextField(Operaciones.obtenerTipoDatoLabel(pe.getLabelSeleccionado().getText()));
+		textFieldTipoDato = new JTextField(Operaciones.obtenerTipoDatoLabel(labelSeleccionado.getText()));
 		textFieldTipoDato.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
@@ -241,12 +243,12 @@ public class ModificarAtributo extends JFrame {
 		textFieldTipoDato.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				if(textFieldTipoDato.getText().equals(Operaciones.obtenerTipoDatoLabel(pe.getLabelSeleccionado().getText()))){
+				if(textFieldTipoDato.getText().equals(Operaciones.obtenerTipoDatoLabel(labelSeleccionado.getText()))){
 					textFieldTipoDato.setText("");
 					textFieldTipoDato.setForeground(Color.black);
 				}
 				if(textFieldNombre.getText().equals("")){
-					textFieldNombre.setText(Operaciones.obtenerNombreLabelAtributo(pe.getLabelSeleccionado().getText()));
+					textFieldNombre.setText(Operaciones.obtenerNombreLabelAtributo(labelSeleccionado.getText()));
 					textFieldNombre.setForeground(Color.lightGray);
 				}
 			}
@@ -256,7 +258,7 @@ public class ModificarAtributo extends JFrame {
 		textFieldTipoDato.setBounds(154, 148, 164, 24);
 		contentPane.add(textFieldTipoDato);
 		
-		lblNewLabel = new JLabel(pe.getLabelSeleccionado().getText());
+		lblNewLabel = new JLabel(labelSeleccionado.getText());
 		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 16));
 		lblNewLabel.setBounds(167, 19, 214, 23);
 		contentPane.add(lblNewLabel);

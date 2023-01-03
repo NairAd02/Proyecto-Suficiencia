@@ -167,6 +167,7 @@ public class Diagrama implements Validable, Serializable {
 					claseNueva.setAtributos(this.clases.get(i).getAtributos());
 					claseNueva.setMetodos(this.clases.get(i).getMetodos());
 					claseNueva.setPadre(this.clases.get(i).getPadre());
+					this.modificarClaseHerencia(this.clases.get(i), claseNueva);
 					this.clases.set(i,claseNueva);
 					validator = true;
 				}
@@ -188,6 +189,7 @@ public class Diagrama implements Validable, Serializable {
 				claseAbstracta.setAtributos(this.clases.get(i).getAtributos());
 				claseAbstracta.setMetodos(this.clases.get(i).getMetodos());
 				claseAbstracta.setPadre(this.clases.get(i).getPadre());
+				this.modificarClaseHerencia(this.clases.get(i), claseAbstracta);
 				this.clases.set(i,claseAbstracta);
 				validator = true;
 
@@ -195,6 +197,18 @@ public class Diagrama implements Validable, Serializable {
 		}
 
 	}
+	
+	private void modificarClaseHerencia(Clase claseVieja, Clase claseNueva){
+		for (Clase c : this.clases) {
+			if(c.isMiPadre(claseVieja))
+				c.setPadre(claseNueva);
+			else if(c.isMiHijo(claseVieja))
+				c.modificarHijo(claseVieja, claseNueva);
+				
+		}
+	}
+	
+	
 
 	public void CambiarMetodosAbstractosAConcretos(String nombreClase){
 		System.out.println(nombreClase);
@@ -218,6 +232,7 @@ public class Diagrama implements Validable, Serializable {
 
 	public void eliminarClase(String nombre){
 		Clase claseEliminar = this.buscarClase(nombre);
+		
 		if(claseEliminar!=null){
 			this.eliminarPadre(claseEliminar);
 			this.eliminarHijo(claseEliminar);
@@ -232,6 +247,7 @@ public class Diagrama implements Validable, Serializable {
 
 		for(int i = 0; i < this.clases.size(); i++){
 			if(this.clases.get(i).isMiPadre(clase)){
+				System.out.println("Se elimino padre");
 				this.clases.get(i).eliminarPadre();
 			}
 		}
@@ -241,6 +257,7 @@ public class Diagrama implements Validable, Serializable {
 
 		for(int i = 0; i < this.clases.size(); i++){
 			if(this.clases.get(i).isMiHijo(clase)){
+				System.out.println("Se elimino hijo");
 				this.clases.get(i).eliminarHijo(clase);
 			}
 		}
@@ -470,6 +487,41 @@ public class Diagrama implements Validable, Serializable {
 
 	public void eliminarMetodo(String nombreClase, String nombreMetodo, ArrayList<String> parametros){
 		this.buscarClase(nombreClase).elminarMetodo(nombreMetodo, parametros);
+	}
+
+	public boolean equals(Diagrama d){
+		boolean verificador = false;
+
+		if(this.equalsNombre(d) && this.equalsClases(d))
+			verificador = true;
+
+		return verificador;
+	}
+
+	private boolean equalsNombre (Diagrama d){
+		boolean verificador = false;
+
+		if(this.nombre.equals(d.getNombre()))
+			verificador = true;
+
+		return verificador;
+	}
+
+	private boolean equalsClases (Diagrama d){
+		boolean verificador = true;
+		ArrayList<Clase> c = d.getClases();
+		if(this.clases.size() == c.size()){
+			for (int i = 0; i < this.clases.size() && verificador; i++) {
+				System.out.println("Entreeeee");
+				if(!this.clases.get(i).equals(c.get(i)))
+					verificador = false;
+
+			}
+		}
+		else
+			verificador = false;
+
+		return verificador;
 	}
 
 }
