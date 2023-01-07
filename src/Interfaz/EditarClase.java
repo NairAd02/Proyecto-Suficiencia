@@ -6,12 +6,14 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-
 import javax.swing.table.DefaultTableModel;
 
 import util.PanelClase;
 
 import javax.swing.border.LineBorder;
+
+import Clases.Clase;
+import Clases.Diagrama;
 
 public class EditarClase extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -172,21 +174,26 @@ public class EditarClase extends JFrame {
 	}
 	
 	private void cambiarColorClase(){
+	Clase clase =Diagrama.getInstance().buscarClase(pe.getClaseSeleccionada().getLblNombreclase().getText());
 		if(rdbtnColorAmarillo.isSelected()){
 			pe.setBackground(SystemColor.info);
 			pe.getPanelAtributos().setBackground(SystemColor.info);
 			pe.getPanelMetodos().setBackground(SystemColor.info);
+			clase.setColor("Amarillo");
+			
 		}
 		else if(rdbtnColorAzul.isSelected()){
 			pe.setBackground(SystemColor.activeCaption);
 			pe.getPanelAtributos().setBackground(SystemColor.activeCaption);
 			pe.getPanelMetodos().setBackground(SystemColor.activeCaption);
+			clase.setColor("Azul");
 			
 		}
 		else if(rdbtnGris.isSelected()){
 			pe.setBackground(SystemColor.control);
 			pe.getPanelAtributos().setBackground(SystemColor.control);
 			pe.getPanelMetodos().setBackground(SystemColor.control);
+			clase.setColor("Gris");
 		}
 		
 		pe.repaint();

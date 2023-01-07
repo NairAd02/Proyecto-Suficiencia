@@ -22,6 +22,8 @@ public class ConfirmarSalida extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
+	
 	public ConfirmarSalida(Principal p) {
 		pe=p;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,8 +37,9 @@ public class ConfirmarSalida extends JFrame {
 		contentPane.setLayout(null);
 		
 		lblTexto = new JLabel("Desea salir del programa?");
+		lblTexto.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTexto.setFont(new Font("Dialog", Font.BOLD, 19));
-		lblTexto.setBounds(80, 38, 269, 46);
+		lblTexto.setBounds(10, 38, 412, 46);
 		contentPane.add(lblTexto);
 		
 		panelSalir = new JPanel();
@@ -45,7 +48,8 @@ public class ConfirmarSalida extends JFrame {
 		contentPane.add(panelSalir);
 		panelSalir.setLayout(null);
 		
-		lblSalir = new JLabel("      Salir");
+		lblSalir = new JLabel("Aceptar");
+		lblSalir.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSalir.setBounds(18, 7, 113, 40);
 		panelSalir.add(lblSalir);
 		lblSalir.setFont(new Font("Dialog", Font.BOLD, 19));
@@ -103,6 +107,16 @@ public class ConfirmarSalida extends JFrame {
 		
 		
 		
+	}
+
+
+	public JLabel getLblTexto() {
+		return lblTexto;
+	}
+
+
+	public void setTextoLblTexto(String texto) {
+		this.lblTexto.setText(texto);
 	}
 
 }

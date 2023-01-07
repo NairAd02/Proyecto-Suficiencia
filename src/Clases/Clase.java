@@ -14,8 +14,9 @@ public abstract class Clase implements Serializable  {
 	protected ArrayList<Atributo> atributos;
 	protected Clase padre;
 	protected ArrayList<Clase> hijos;
+	protected String color;
 
-	
+
 
 	public Clase(String nombre) throws Exception {
 
@@ -24,8 +25,23 @@ public abstract class Clase implements Serializable  {
 		this.hijos=new ArrayList<Clase>();
 		this.atributos = new ArrayList<Atributo>();
 		this.metodos = new ArrayList<Metodo>();
+		this.color = "Gris";
 	}
-	
+
+
+
+	public String getColor() {
+		return color;
+	}
+
+
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+
+
 	public ArrayList<Clase> getHijos() {
 
 		return this.hijos;
@@ -174,7 +190,7 @@ public abstract class Clase implements Serializable  {
 		return x;
 
 	}
-	
+
 	public void modificarHijo(Clase claseVieja, Clase claseNueva){
 		boolean parada = false;
 		for(int i = 0; i<this.hijos.size() && !parada; i++){
@@ -184,8 +200,8 @@ public abstract class Clase implements Serializable  {
 			}
 		}
 	}
-	
-	
+
+
 
 	public boolean isMiHijo(Clase clase){
 		boolean validator = false;
@@ -506,7 +522,7 @@ public abstract class Clase implements Serializable  {
 	public boolean equals(Clase c){
 		boolean verificador = false;
 
-		if(this.equalsNombre(c) && this.equalsAtributos(c) && this.equalsHijos(c) && this.equalsMetodos(c))
+		if(this.equalsNombre(c) && this.equalsAtributos(c) && this.equalsHijos(c) && this.equalsMetodos(c) && this.equalsColor(c))
 			verificador = true;
 
 		return verificador;
@@ -562,9 +578,9 @@ public abstract class Clase implements Serializable  {
 		ArrayList<Clase> cc = c.getHijos(); 
 
 		if(this.hijos.size() == cc.size()){
-			
+
 			for (int i = 0; i < this.hijos.size() && verificador; i++) {
-				
+
 				if(!this.hijos.get(i).equals(cc.get(i)))
 					verificador = false;
 				System.out.println("as");
@@ -577,7 +593,17 @@ public abstract class Clase implements Serializable  {
 
 	}
 
-	
+	private boolean equalsColor(Clase c){
+		boolean verificador = false;
+
+		if(this.color.equalsIgnoreCase(c.getColor()))
+			verificador = true;
+
+		return verificador;
+
+	}
+
+
 
 	public ArrayList<Metodo> getMetodos() {
 		return metodos;

@@ -177,6 +177,26 @@ public class Principal extends JFrame {
 
 
 
+	public boolean isDesplegadoArchivo() {
+		return desplegadoArchivo;
+	}
+
+
+	public void setDesplegadoArchivo(boolean desplegadoArchivo) {
+		this.desplegadoArchivo = desplegadoArchivo;
+	}
+
+
+	public boolean isDesplegadoHerram() {
+		return desplegadoHerram;
+	}
+
+
+	public void setDesplegadoHerram(boolean desplegadoHerram) {
+		this.desplegadoHerram = desplegadoHerram;
+	}
+
+
 	public Diagrama getDiagrama() {
 		return diagrama;
 	}
@@ -853,10 +873,16 @@ public class Principal extends JFrame {
 				desplegadoHerram = false;
 				panelArchivoDesp.setVisible(false);
 				desplegadoArchivo = false;
-
+				if(ManejoDirectorios.comprobarEstadoDeGuardado(diagrama)){	
 				ConfirmarSalida frame = new ConfirmarSalida(Principal.this);
 				frame.setVisible(true);
 				setEnabled(false);
+				}
+				else{
+					FrameDecisor decisor = new FrameDecisor(Principal.this, null);
+					decisor.setVisible(true);
+					setEnabled(false);
+				}
 			}
 			@Override
 			public void mouseEntered(MouseEvent arg0) {

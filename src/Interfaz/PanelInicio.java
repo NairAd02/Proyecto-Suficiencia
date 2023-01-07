@@ -22,6 +22,15 @@ public class PanelInicio extends JPanel {
 	private Principal pe;
 
 	public PanelInicio(Principal p) {
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				pe.getPanelHerramDesp().setVisible(false);
+				pe.setDesplegadoHerram(false);
+				pe.getPanelArchivoDesp().setVisible(false);
+				pe.setDesplegadoArchivo(false);
+			}
+		});
 		pe = p;
 		setBorder(null);
 		setBackground(SystemColor.textHighlightText);
@@ -31,6 +40,10 @@ public class PanelInicio extends JPanel {
 		lblNewLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				pe.getPanelHerramDesp().setVisible(false);
+				pe.setDesplegadoHerram(false);
+				pe.getPanelArchivoDesp().setVisible(false);
+				pe.setDesplegadoArchivo(false);
 				FrameNuevoDiagrama nuevoDiagrama = new FrameNuevoDiagrama(pe);
 				nuevoDiagrama.setVisible(true);
 				pe.setEnabled(false);

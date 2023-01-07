@@ -46,5 +46,30 @@ public class ManejoDirectorios {
 			
 			return issameName;
 		}
+	
+	public static boolean comprobarEstadoDeGuardado(Diagrama diagramaActual){
+		boolean isGuardado = false;
+		if(diagramaActual != null){
+		try {
+			
+			Diagrama d = (Diagrama) ManejoDirectorios.recuperarArchivo(diagramaActual.getNombre());
+			
+			if(d.equals(diagramaActual))
+				isGuardado = true;
+		} catch (FileNotFoundException e) {
+			
+		} catch (ClassNotFoundException e) {
+			
+			e.printStackTrace();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		}
+		else
+			isGuardado = true;
+		
+		return isGuardado;	
+	}
 
 }

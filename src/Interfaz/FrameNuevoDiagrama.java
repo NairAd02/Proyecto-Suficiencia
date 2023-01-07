@@ -102,13 +102,13 @@ public class FrameNuevoDiagrama extends JFrame {
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(!textFieldNombreDiagrama.getText().equals("") && !ManejoDirectorios.isSameName(textFieldNombreDiagrama.getText()) && comprobarEstadoDeGuardado()){
+				if(!textFieldNombreDiagrama.getText().equals("") && !ManejoDirectorios.isSameName(textFieldNombreDiagrama.getText()) && ManejoDirectorios.comprobarEstadoDeGuardado(pe.getDiagrama())){
 					crearNuevoDiagrama();	
 				}
 				else if(ManejoDirectorios.isSameName(textFieldNombreDiagrama.getText())){
 					lblDiagramaSameNameError.setVisible(true);
 				}
-				else if(!comprobarEstadoDeGuardado()){
+				else if(!ManejoDirectorios.comprobarEstadoDeGuardado(pe.getDiagrama())){
 					System.out.println("No esta guardado");
 				}
 				else{
@@ -193,30 +193,7 @@ public class FrameNuevoDiagrama extends JFrame {
 		dispose();
 	}
 	
-	private boolean comprobarEstadoDeGuardado(){
-		boolean isGuardado = false;
-		if(pe.getDiagrama() != null){
-		try {
-			
-			Diagrama d = (Diagrama) ManejoDirectorios.recuperarArchivo(pe.getDiagrama().getNombre());
-			
-			if(d.equals(pe.getDiagrama()))
-				isGuardado = true;
-		} catch (FileNotFoundException e) {
-			
-		} catch (ClassNotFoundException e) {
-			
-			e.printStackTrace();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-		}
-		else
-			isGuardado = true;
-		
-		return isGuardado;	
-	}
+	
 	
 	
 

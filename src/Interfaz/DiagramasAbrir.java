@@ -38,6 +38,10 @@ public class DiagramasAbrir extends JFrame {
 	private JPanel panelSalvas;
 
 
+	public Principal getPe() {
+		return pe;
+	}
+
 	/**
 	 * Create the frame.
 	 */
@@ -55,7 +59,7 @@ public class DiagramasAbrir extends JFrame {
 		
 		contentPane.setLayout(null);
 		
-		labelTitulo = new JLabel("Desarrollado por:");
+		labelTitulo = new JLabel("Diagramas creados:");
 		labelTitulo.setFont(new Font("Dialog", Font.BOLD, 19));
 		labelTitulo.setBounds(70, 12, 190, 38);
 		contentPane.add(labelTitulo);
@@ -122,7 +126,10 @@ public class DiagramasAbrir extends JFrame {
 		String[] list = rutaSalvas.list();
 		
 		for (String s : list) {
-			panelSalvas.add(new LabelArchivoGuardado(s, pe));
+			JPanel panel = new JPanel();
+			panel.setLayout(new BorderLayout());
+			panel.add(new LabelArchivoGuardado(s, pe,DiagramasAbrir.this),BorderLayout.CENTER);
+			panelSalvas.add(panel);
 		}
 		
 	}

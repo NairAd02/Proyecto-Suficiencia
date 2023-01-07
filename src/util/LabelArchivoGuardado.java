@@ -8,6 +8,8 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 
 import Clases.Diagrama;
+import Interfaz.DiagramasAbrir;
+import Interfaz.FrameDecisor;
 import Interfaz.Principal;
 import Logica.ManejoDirectorios;
 
@@ -23,8 +25,20 @@ public class LabelArchivoGuardado extends JLabel{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Principal pe;
-	public LabelArchivoGuardado(String nombre, Principal p){
+	private DiagramasAbrir di;
+	
+	
+	public Principal getPe() {
+		return pe;
+	}
+
+	public DiagramasAbrir getDi() {
+		return di;
+	}
+
+	public LabelArchivoGuardado(String nombre, Principal p, DiagramasAbrir d){
 		pe = p;
+		di = d;
 		setOpaque(true);
 		addMouseListener(new MouseAdapter() {
 			@Override
@@ -37,41 +51,55 @@ public class LabelArchivoGuardado extends JLabel{
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
-				Diagrama diagrama = null;
-				try {
-					diagrama = (Diagrama) ManejoDirectorios.recuperarArchivo(getText());
-					System.out.println(diagrama.getLienzo());
-					Diagrama.setInstance(diagrama);
-					pe.setDiagrama(diagrama);
-					pe.setLienzo(diagrama.getLienzo());	
-					pe.getScrollPane().setViewportView(pe.getLienzo());
-					pe.actualizarAccionesLienzo();
-					pe.habilitarPrograma();
-					pe.getLienzo().repaint();
-					pe.getLienzo().revalidate();
-					pe.repaint();
-					pe.revalidate();
-					
-								
-				} catch (FileNotFoundException e1) {
-
-					e1.printStackTrace();
-				} catch (ClassNotFoundException e1) {
-
-					e1.printStackTrace();
-				} catch (IOException e1) {
-
-					e1.printStackTrace();
+				if(ManejoDirectorios.comprobarEstadoDeGuardado(pe.getDiagrama())){
+					cargarArchivo();
+				}
+				else{
+					FrameDecisor decisor = new FrameDecisor(di, LabelArchivoGuardado.this);
+					decisor.setVisible(true);
+					di.setEnabled(false);
 				}
 			}
 		});
-		setHorizontalAlignment(SwingConstants.CENTER);
+		setHorizontalAlignment(SwingConstants.LEFT);
 		setText(nombre);
 		setBackground(new Color(153, 204, 204));
 		setFont(new Font("Dialog", Font.BOLD, 24));
 		setVisible(true);
 
 	}
-	
-	
+
+	public void cargarArchivo(){
+		Diagrama diagrama = null;
+		try {
+			diagrama = (Diagrama) ManejoDirectorios.recuperarArchivo(getText());
+			System.out.println(diagrama.getLienzo());
+			Diagrama.setInstance(diagrama);
+			pe.setDiagrama(diagrama);
+			pe.setLienzo(diagrama.getLienzo());	
+			pe.getScrollPane().setViewportView(pe.getLienzo());
+			pe.actualizarAccionesLienzo();
+			pe.habilitarPrograma();
+			pe.getLienzo().repaint();
+			pe.getLienzo().revalidate();
+			pe.repaint();
+			pe.revalidate();
+			pe.setEnabled(true);
+			di.dispose();
+			
+
+
+		} catch (FileNotFoundException e1) {
+
+			e1.printStackTrace();
+		} catch (ClassNotFoundException e1) {
+
+			e1.printStackTrace();
+		} catch (IOException e1) {
+
+			e1.printStackTrace();
+		}
+	}
+
+
 }
