@@ -2,6 +2,7 @@ package Interfaz;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
@@ -126,10 +127,11 @@ public class DiagramasAbrir extends JFrame {
 		String[] list = rutaSalvas.list();
 		
 		for (String s : list) {
-			JPanel panel = new JPanel();
-			panel.setLayout(new BorderLayout());
-			panel.add(new LabelArchivoGuardado(s, pe,DiagramasAbrir.this),BorderLayout.CENTER);
+			JPanel panel = new JPanel();	
+			panel.setLayout(new BorderLayout());		
+			panel.add(new LabelArchivoGuardado(s, pe,DiagramasAbrir.this),BorderLayout.CENTER);		
 			panelSalvas.add(panel);
+			
 		}
 		
 	}
