@@ -25,9 +25,9 @@ public class DiagramaTestCase {
 	//Prueba caja blanca Buscar Método
 	@Test
 	public void testBuscarClaseCaminoBasico1() throws Exception {
-		diagrama.addClase(new Abstracta("Animal"));
-		diagrama.addClase(new Concreta("Perro"));
-		diagrama.addClase(new Concreta("León"));
+		diagrama.addClase(new Abstracta("Animal",0,0));
+		diagrama.addClase(new Concreta("Perro",0,0));
+		diagrama.addClase(new Concreta("León",0,0));
 		
 		assertEquals(null,diagrama.buscarClase("Robot") );
 		
@@ -41,9 +41,9 @@ public class DiagramaTestCase {
 	
 	@Test
 	public void testBuscarClaseCaminoBasico3() throws Exception {
-		diagrama.addClase(new Abstracta("Animal"));
-		diagrama.addClase(new Concreta("Perro"));
-		diagrama.addClase(new Concreta("León"));
+		diagrama.addClase(new Abstracta("Animal",0,0));
+		diagrama.addClase(new Concreta("Perro",0,0));
+		diagrama.addClase(new Concreta("León",0,0));
 		
 		assertEquals(this.diagrama.getClases().get(1),diagrama.buscarClase("Perro") );
 		
@@ -51,9 +51,9 @@ public class DiagramaTestCase {
 	
 	@Test
 	public void testBuscarClaseBucle1() throws Exception {
-		diagrama.addClase(new Abstracta("Animal"));
-		diagrama.addClase(new Concreta("Perro"));
-		diagrama.addClase(new Concreta("León"));
+		diagrama.addClase(new Abstracta("Animal",0,0));
+		diagrama.addClase(new Concreta("Perro",0,0));
+		diagrama.addClase(new Concreta("León",0,0));
 		
 		assertEquals(this.diagrama.getClases().get(0),diagrama.buscarClase("Animal") );
 		
@@ -61,9 +61,9 @@ public class DiagramaTestCase {
 	
 	@Test
 	public void testBuscarClaseBucle2() throws Exception {
-		diagrama.addClase(new Abstracta("Animal"));
-		diagrama.addClase(new Concreta("Perro"));
-		diagrama.addClase(new Concreta("León"));
+		diagrama.addClase(new Abstracta("Animal",0,0));
+		diagrama.addClase(new Concreta("Perro",0,0));
+		diagrama.addClase(new Concreta("León",0,0));
 		assertEquals(this.diagrama.getClases().get(2),diagrama.buscarClase("León") );
 		
 	}
@@ -76,7 +76,7 @@ public class DiagramaTestCase {
 		boolean veredicto = true;
 		String valorReal = null;
 		try {
-			this.diagrama.addClase(new Abstracta("Animal"));
+			this.diagrama.addClase(new Abstracta("Animal",0,0));
 		} catch (Exception e) {
 			veredicto = false;
 			
@@ -91,11 +91,11 @@ public class DiagramaTestCase {
 	
 	@Test
 	public void testAgregarClaseEscenario2() throws Exception  {
-		this.diagrama.addClase(new Abstracta("Animal"));
+		this.diagrama.addClase(new Abstracta("Animal",0,0));
 		boolean veredicto = true;
 		String valorReal = null;
 		try {
-			this.diagrama.addClase(new Abstracta("Animal"));
+			this.diagrama.addClase(new Abstracta("Animal",0,0));
 		} catch (Exception e) {
 			veredicto = false;
 			valorReal = "Ya existe una clase con el mismo nombre";
@@ -110,7 +110,7 @@ public class DiagramaTestCase {
 	
 	@Test
 	public void testEliminarClaseEscenario1() throws Exception  {
-		this.diagrama.addClase(new Concreta("Perro"));
+		this.diagrama.addClase(new Concreta("Perro",0,0));
 			
 		this.diagrama.eliminarClase("Perro");
 			

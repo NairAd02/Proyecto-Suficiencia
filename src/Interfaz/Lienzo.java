@@ -1,6 +1,7 @@
 package Interfaz;
 
 import java.awt.BasicStroke;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,8 +11,16 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+
+
+import Clases.Atributo;
+import Clases.Clase;
+import Clases.Metodo;
+import Logica.Operaciones;
 import util.Flecha;
+import util.LabelAtributo;
 import util.Linea;
+import util.PanelClase;
 
 public class Lienzo extends JPanel implements Runnable{
 
@@ -22,11 +31,21 @@ public class Lienzo extends JPanel implements Runnable{
 	private transient Graphics2D g2;
 	private transient Thread gameThread;
 	private int FPS = 60;
-	private ArrayList<Flecha> herencias = new ArrayList<Flecha>();
-	private ArrayList<Linea> asociaciones = new ArrayList<Linea>();
-	private ArrayList<Linea> claseAsociacion = new ArrayList<Linea>();
+	private ArrayList<Flecha> herencias;
+	private ArrayList<Linea> asociaciones;
+	private ArrayList<Linea> claseAsociacion;
 	//private Point inicio, finale;
 	private Flecha aux;
+	
+	
+	
+	public Lienzo() {
+		
+		this.herencias = new ArrayList<Flecha>();
+		this.asociaciones = new ArrayList<Linea>();
+		this.claseAsociacion = new ArrayList<Linea>();
+	}
+
 	public void startGameThread() 
 	{
 		gameThread = new Thread(this);
@@ -131,9 +150,9 @@ public class Lienzo extends JPanel implements Runnable{
 		asociaciones.add(new Linea(inicial, finale));
 	}
 
-	public void addHerencia(Point inicial, Point finale, String padre, String hijo){
+	public void addHerencia(Flecha flecha){
 		aux=null;
-		herencias.add(new Flecha(inicial, finale, padre, hijo));
+		herencias.add(flecha);
 	}
 	public void addFlechaTemporal(Point inicial, Point finale){
 		aux = new Flecha(inicial,finale);
@@ -189,7 +208,7 @@ public class Lienzo extends JPanel implements Runnable{
 			}
 		}
 	}
-	
+
 	public void cancelarHerencia(){
 		aux = null;
 	}
@@ -207,4 +226,42 @@ public class Lienzo extends JPanel implements Runnable{
 			}
 		}
 	}
+
+	public void addPanelClase(Clase clase, Principal p){
+		PanelClase panelClase = new  PanelClase(p);
+		panelClase.setClaseDiagrama(clase);
+		panelClase.getLblNombreclase().setText(clase.getNombre());
+		this.llenarAtributos(clase.getAtributos(), panelClase);
+		this.llenarMetodos(clase.getMetodos(), panelClase);
+		panelClase.setBounds(clase.getPosicionX(), clase.getPosicionY(), panelClase.getPreferredSize().width+50, panelClase.getPreferredSize().height+50);
+		panelClase.setMidPoint();
+		add(panelClase);
+
+	}
+	
+	
+
+	private void llenarAtributos(ArrayList<Atributo> atributos, PanelClase panelClase ){
+		for (Atributo a : atributos) {
+			panelClase.getPanelAtributos().add(new LabelAtributo(Operaciones.obtenerAtributoDiagrama(a), panelClase));
+		}
+
+	}
+
+	private void llenarMetodos(ArrayList<Metodo> metodos, PanelClase panelClase ){
+		for (Metodo m : metodos) {
+			panelClase.getPanelMetodos().add(new LabelAtributo(Operaciones.obtenerMetodoDiagrama(m), panelClase));
+		}
+
+	}
+
+	public ArrayList<Flecha> getHerencias() {
+		return herencias;
+	}
+
+	public void setHerencias(ArrayList<Flecha> herencias) {
+		this.herencias = herencias;
+	}
+	
+	
 }

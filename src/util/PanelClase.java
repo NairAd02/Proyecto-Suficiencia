@@ -19,6 +19,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.Cursor;
 
+import Clases.Clase;
+import Clases.Diagrama;
 import Interfaz.EditarClase;
 import Interfaz.EliminarClase;
 import Interfaz.Principal;
@@ -34,6 +36,7 @@ public class PanelClase extends JPanel {
 	private transient Principal pe;
 	private Point top, bottom, left, right;
 	private PanelClase claseSeleccionada;
+	private Clase claseDiagrama;
 	private JLabel lblNombreclase;
 	private JPanel panelNombreClase;
 	private JPanel panelAtributos;
@@ -110,8 +113,9 @@ public class PanelClase extends JPanel {
 	public void setClaseSeleccionada(PanelClase panelEliminar) {
 		this.claseSeleccionada = panelEliminar;
 	}
-	public void setLblNombreclase(JLabel lblNombreclase) {
-		this.lblNombreclase = lblNombreclase;
+	public void setTextLblNombreclase(String lblNombreclase) {
+		this.lblNombreclase.setText(lblNombreclase);
+		claseDiagrama = Diagrama.getInstance().buscarClase(this.lblNombreclase.getText());
 	}
 	public JLabel getLblNombreclase() {
 		return lblNombreclase;
@@ -131,6 +135,13 @@ public class PanelClase extends JPanel {
 	public JPanel getPanelMetodos() {
 		return panelMetodos;
 	}
+	
+	public Clase getClaseDiagrama() {
+		return claseDiagrama;
+	}
+	public void setClaseDiagrama(Clase claseDiagrama) {
+		this.claseDiagrama = claseDiagrama;
+	}
 	public JLabel getLabelSeleccionado() {
 		return labelSeleccionado;
 	}
@@ -146,7 +157,7 @@ public class PanelClase extends JPanel {
 	}
 
 	private void flechaHerencia(PanelClase c1, PanelClase c2){
-		
+		System.out.println("Clase 1"+ c1 +"Clase2" + c2);
 		if(c1.getLocation().y > c2.getLocation().y + c2.getPreferredSize().height+50){
 			System.out.println("Clase dos esta mas arriba de la clase 1");
 			pe.setFlechaInicio(c1.top);
@@ -207,9 +218,15 @@ public class PanelClase extends JPanel {
 							mover = false;
 						}
 						if(x){
+							
 						pe.setPadreFlecha(lblNombreclase.getText());
 						flechaHerencia(pe.getClaseSeleccionada1(), PanelClase.this);
-						pe.getLienzo().addHerencia(pe.getFlechaInicio(), flechaFinal, pe.getPadreFlecha(), pe.getHijoFlecha());
+						System.out.println(pe.getPadreFlecha());
+						Flecha f = new Flecha(pe.getFlechaInicio(), flechaFinal, pe.getPadreFlecha(), pe.getHijoFlecha());
+						
+						pe.getLienzo().addHerencia(f);
+						Diagrama.getInstance().addFlechaHerencia(f);
+						
 						pe.setRelacionesPressed(false);
 						pe.getMenuLienzo().getMntmCancelar().setVisible(false);
 						pe.getMenuLienzo().getMntmEstablecerRelacin().setVisible(true);
@@ -220,6 +237,8 @@ public class PanelClase extends JPanel {
 						}
 					}
 					else{
+						System.out.println(getLocation().x);
+						System.out.println(getLocation().y);
 						pe.setFlechaInicio(new Point(getLocation().x, getLocation().y));
 						pe.setHijoFlecha(lblNombreclase.getText());
 						pe.setHerenciaClase1(true);
@@ -253,8 +272,11 @@ public class PanelClase extends JPanel {
 					int x = e.getXOnScreen()-pe.getLienzo().getLocationOnScreen().x;
 					int y = e.getYOnScreen()-pe.getLienzo().getLocationOnScreen().y;
 					if((x - mouseX)>0&&(y-mouseY>0)&&(x - mouseX)<2000-getWidth()&&
-							(y - mouseY)<2000-getHeight())
+							(y - mouseY)<2000-getHeight()){
 						setLocation(x - mouseX, y-mouseY);
+						claseDiagrama.setPosicionX(x - mouseX);
+						claseDiagrama.setPosicionY(y-mouseY);
+					}
 					
 					
 					setMidPoint();

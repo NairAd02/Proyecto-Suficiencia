@@ -10,8 +10,8 @@ public class Concreta extends Clase implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public Concreta(String nombre) throws Exception {
-		super(nombre);
+	public Concreta(String nombre, int posicionX, int posicionY) throws Exception {
+		super(nombre, posicionX, posicionY);
 
 
 	}

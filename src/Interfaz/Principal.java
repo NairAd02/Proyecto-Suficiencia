@@ -1339,7 +1339,7 @@ public class Principal extends JFrame {
 
 					if(radioBotonTipoClase.equals("Concreta")){
 						try {
-							diagrama.addClase(new Concreta(nombreClase));
+							diagrama.addClase(new Concreta(nombreClase, e.getX(), e.getY()));
 						} catch (Exception e1) {
 							x=false;
 							ClasesMismoName mismoName = new ClasesMismoName(Principal.this);
@@ -1349,7 +1349,7 @@ public class Principal extends JFrame {
 					}
 					else if(radioBotonTipoClase.equals("Abstracta")){
 						try {
-							diagrama.addClase(new Abstracta(nombreClase));
+							diagrama.addClase(new Abstracta(nombreClase, e.getX(), e.getY()));
 						} catch (Exception e1) {
 							x=false;
 							ClasesMismoName mismoName = new ClasesMismoName(Principal.this);
@@ -1362,7 +1362,7 @@ public class Principal extends JFrame {
 						panelClase.setVisible(true);
 						if(radioBotonTipoClase.equals("Abstracta"))
 							panelClase.getLblNombreclase().setFont(new Font("Segoe Script", Font.PLAIN, 16));
-						panelClase.getLblNombreclase().setText(nombreClase);	
+						panelClase.setTextLblNombreclase(nombreClase);
 						panelClase.setBounds(e.getX(), e.getY(), panelClase.getPreferredSize().width+50, panelClase.getPreferredSize().height+50);
 						panelClase.setMidPoint();
 						lienzo.add(panelClase);

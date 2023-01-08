@@ -10,8 +10,8 @@ public class Abstracta extends Clase implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public Abstracta(String nombre) throws Exception {
-		super(nombre);
+	public Abstracta(String nombre, int posicionX, int posicionY) throws Exception {
+		super(nombre, posicionX, posicionY);
 		
 	}
 	

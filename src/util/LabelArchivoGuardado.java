@@ -7,9 +7,11 @@ import java.awt.Font;
 
 import javax.swing.SwingConstants;
 
+import Clases.Clase;
 import Clases.Diagrama;
 import Interfaz.DiagramasAbrir;
 import Interfaz.FrameDecisor;
+import Interfaz.Lienzo;
 import Interfaz.Principal;
 import Logica.ManejoDirectorios;
 
@@ -17,6 +19,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class LabelArchivoGuardado extends JLabel{
 
@@ -73,19 +76,13 @@ public class LabelArchivoGuardado extends JLabel{
 		Diagrama diagrama = null;
 		try {
 			diagrama = (Diagrama) ManejoDirectorios.recuperarArchivo(getText());
-			System.out.println(diagrama.getLienzo());
+			
 			Diagrama.setInstance(diagrama);
 			pe.setDiagrama(diagrama);
-			pe.setLienzo(diagrama.getLienzo());	
-			pe.getScrollPane().setViewportView(pe.getLienzo());
-			pe.actualizarAccionesLienzo();
-			pe.habilitarPrograma();
-			pe.getLienzo().repaint();
-			pe.getLienzo().revalidate();
-			pe.repaint();
-			pe.revalidate();
-			pe.setEnabled(true);
-			di.dispose();
+			pe.setLienzo(new Lienzo());	
+			actualizarLienzo();
+			
+			
 			
 
 
@@ -99,6 +96,29 @@ public class LabelArchivoGuardado extends JLabel{
 
 			e1.printStackTrace();
 		}
+	}
+	
+	public void actualizarLienzo(){
+		ArrayList<Clase> clases = Diagrama.getInstance().getClases();
+		Lienzo lienzo = pe.getLienzo();
+		
+		
+		
+		for (Clase c : clases) {
+			lienzo.addPanelClase(c, pe);		
+		}
+		
+		lienzo.setHerencias(Diagrama.getInstance().getFlechasHerencia());
+		pe.accionesLienzo();
+		pe.getScrollPane().setViewportView(pe.getLienzo());
+		pe.habilitarPrograma();
+		pe.getLienzo().repaint();
+		pe.getLienzo().revalidate();
+		pe.repaint();
+		pe.revalidate();
+		pe.setEnabled(true);
+		di.dispose();
+		
 	}
 
 

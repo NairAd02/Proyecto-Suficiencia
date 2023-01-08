@@ -285,11 +285,15 @@ public class ModificarClase extends JFrame {
 	}
 
 	public void modificarClaseAbstractaDiagrama() throws Exception{
-		pe.getPe().getDiagrama().modificarClase(pe.getLblNombreclase().getText(), new Concreta(textFieldNombreClase.getText()));
+		Clase clase = new Concreta(textFieldNombreClase.getText(),0,0);
+		pe.getPe().getDiagrama().modificarClase(pe.getLblNombreclase().getText(), clase );
+		pe.setClaseDiagrama(clase);
 	}
 
 	public void modificarClaseConcretaDiagrama() throws Exception{
-		pe.getPe().getDiagrama().modificarClase(pe.getLblNombreclase().getText(), new Abstracta(textFieldNombreClase.getText()));
+		Clase clase = new Abstracta(textFieldNombreClase.getText(),0,0);
+		pe.getPe().getDiagrama().modificarClase(pe.getLblNombreclase().getText(), new Abstracta(textFieldNombreClase.getText(),0,0));
+		pe.setClaseDiagrama(clase);
 
 	}
 

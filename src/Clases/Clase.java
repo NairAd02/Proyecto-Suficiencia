@@ -15,10 +15,12 @@ public abstract class Clase implements Serializable  {
 	protected Clase padre;
 	protected ArrayList<Clase> hijos;
 	protected String color;
+	protected int posicionX;
+	protected int posicionY;
 
 
 
-	public Clase(String nombre) throws Exception {
+	public Clase(String nombre, int posicionX, int posicionY) throws Exception {
 
 		this.setNombre(nombre);
 		this.padre=null;
@@ -26,12 +28,38 @@ public abstract class Clase implements Serializable  {
 		this.atributos = new ArrayList<Atributo>();
 		this.metodos = new ArrayList<Metodo>();
 		this.color = "Gris";
+		this.posicionX = posicionX;
+		this.posicionY = posicionY;
 	}
 
 
 
 	public String getColor() {
 		return color;
+	}
+
+
+
+	public int getPosicionX() {
+		return posicionX;
+	}
+
+
+
+	public void setPosicionX(int posicionX) {
+		this.posicionX = posicionX;
+	}
+
+
+
+	public int getPosicionY() {
+		return posicionY;
+	}
+
+
+
+	public void setPosicionY(int posicionY) {
+		this.posicionY = posicionY;
 	}
 
 

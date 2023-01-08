@@ -28,6 +28,8 @@ public class Flecha implements Serializable{
 	public Flecha(Point _lineaP1, Point _lineaP2, String padre, String hijo) {
 		lineaP1 = _lineaP1;
 		lineaP2 = _lineaP2;
+		System.out.println(lineaP1);
+		System.out.println(lineaP2);
 		arista1P = new Point();
 		arista2P = new Point();
 		this.padre = padre;

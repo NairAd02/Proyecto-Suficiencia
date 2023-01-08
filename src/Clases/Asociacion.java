@@ -11,8 +11,8 @@ public class Asociacion extends Clase implements Serializable{
 	private Concreta clase1;
 	private Concreta clase2;
 
-	public Asociacion(String nombre, Concreta clase1, Concreta clase2) throws Exception {
-		super(nombre);
+	public Asociacion(String nombre, Concreta clase1, Concreta clase2, int posicionX, int posicionY) throws Exception {
+		super(nombre, posicionX, posicionY);
         this.setClase1(clase1);
         this.setClase2(clase2);
 

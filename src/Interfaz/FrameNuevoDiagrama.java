@@ -193,8 +193,4 @@ public class FrameNuevoDiagrama extends JFrame {
 		dispose();
 	}
 	
-	
-	
-	
-
 }

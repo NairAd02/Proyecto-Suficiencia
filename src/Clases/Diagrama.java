@@ -3,6 +3,7 @@ package Clases;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import util.Flecha;
 import Interfaz.Lienzo;
 
 
@@ -15,6 +16,7 @@ public class Diagrama implements Validable, Serializable {
 	private String nombre;
 	private static Diagrama diagrama;
 	private Lienzo lienzo;
+	private ArrayList<Flecha> flechasHerencia;
 
 
 	public Lienzo getLienzo() {
@@ -27,6 +29,7 @@ public class Diagrama implements Validable, Serializable {
 		this.clases = new ArrayList<Clase>();
 		this.nombre = nombre;
 		this.lienzo = new Lienzo();
+		this.flechasHerencia = new ArrayList<Flecha>();
 	}
 
 	public static Diagrama getInstance(String nombre){
@@ -36,6 +39,10 @@ public class Diagrama implements Validable, Serializable {
 		return diagrama;
 
 	}
+	
+	public void addFlechaHerencia(Flecha flecha){
+		this.flechasHerencia.add(flecha);
+	}
 
 	public static void setInstance(Diagrama d){
 		diagrama = d;
@@ -43,6 +50,12 @@ public class Diagrama implements Validable, Serializable {
 
 	public String getNombre() {
 		return nombre;
+	}
+	
+	
+
+	public ArrayList<Flecha> getFlechasHerencia() {
+		return flechasHerencia;
 	}
 
 	public void setNombre(String nombre) {
@@ -167,6 +180,8 @@ public class Diagrama implements Validable, Serializable {
 					claseNueva.setAtributos(this.clases.get(i).getAtributos());
 					claseNueva.setMetodos(this.clases.get(i).getMetodos());
 					claseNueva.setPadre(this.clases.get(i).getPadre());
+					claseNueva.setPosicionX(this.clases.get(i).getPosicionX());
+					claseNueva.setPosicionY(this.clases.get(i).getPosicionY());
 					this.modificarClaseHerencia(this.clases.get(i), claseNueva);
 					this.clases.set(i,claseNueva);
 					validator = true;
@@ -181,7 +196,7 @@ public class Diagrama implements Validable, Serializable {
 
 	public void modificarClase(String nombreClase) throws Exception{
 		boolean validator = false;
-		Clase claseAbstracta = new Abstracta(nombreClase);
+		Clase claseAbstracta = new Abstracta(nombreClase,0,0);
 
 		for(int i=0; i<this.clases.size() && validator == false;i++){
 			if(nombreClase.equalsIgnoreCase(this.clases.get(i).getNombre())){
@@ -189,6 +204,8 @@ public class Diagrama implements Validable, Serializable {
 				claseAbstracta.setAtributos(this.clases.get(i).getAtributos());
 				claseAbstracta.setMetodos(this.clases.get(i).getMetodos());
 				claseAbstracta.setPadre(this.clases.get(i).getPadre());
+				claseAbstracta.setPosicionX(this.clases.get(i).getPosicionX());
+				claseAbstracta.setPosicionY(this.clases.get(i).getPosicionY());
 				this.modificarClaseHerencia(this.clases.get(i), claseAbstracta);
 				this.clases.set(i,claseAbstracta);
 				validator = true;
@@ -237,7 +254,7 @@ public class Diagrama implements Validable, Serializable {
 			this.eliminarPadre(claseEliminar);
 			this.eliminarHijo(claseEliminar);
 			this.clases.remove(claseEliminar);
-
+            this.eliminarRelaciones(nombre);
 		}
 		else
 			throw new IllegalArgumentException();
@@ -522,6 +539,25 @@ public class Diagrama implements Validable, Serializable {
 			verificador = false;
 
 		return verificador;
+	}
+	
+	public void eliminarRelaciones(String nombre){
+		int i = 0;
+		boolean x = false;
+		if(this.flechasHerencia.size() != 0){
+
+			while(i<this.flechasHerencia.size()){
+				x = false;
+				if(this.flechasHerencia.get(i).getHijo().equals(nombre)||this.flechasHerencia.get(i).getPadre().equals(nombre)){
+					this.flechasHerencia.remove(i);
+					x = true;
+				}
+				i++;
+				if(x){
+					i = 0;
+				}
+			}
+		}
 	}
 
 }

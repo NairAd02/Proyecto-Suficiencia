@@ -17,7 +17,7 @@ public class ConcretaTestCase {
 	private Concreta concreta;
 	@Before
 	public void setUp() throws Exception {
-		this.concreta = new Concreta("Animal");
+		this.concreta = new Concreta("Animal",0,0);
 	}
 
 	@After
