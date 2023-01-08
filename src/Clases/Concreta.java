@@ -15,6 +15,10 @@ public class Concreta extends Clase implements Serializable {
 
 
 	}
+	
+	public Concreta(){
+		super();
+	}
 
 	public void addMetodo(Metodo metodo) throws Exception{
 		if(this.validarMetodo(metodo)){

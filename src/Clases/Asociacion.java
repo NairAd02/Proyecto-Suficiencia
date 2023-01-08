@@ -17,6 +17,10 @@ public class Asociacion extends Clase implements Serializable{
         this.setClase2(clase2);
 
 	}
+	
+	public Asociacion(){
+		super();
+	}
 
 	public void setClase1(Concreta clase1) {
 		if(clase1!=null && clase1 instanceof Concreta)

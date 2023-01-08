@@ -3,6 +3,8 @@ package Clases;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import util.Flecha;
 import Interfaz.Lienzo;
 
@@ -14,23 +16,22 @@ public class Diagrama implements Validable, Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Clase> clases;
 	private String nombre;
+	@JsonIgnore
 	private static Diagrama diagrama;
-	private Lienzo lienzo;
 	private ArrayList<Flecha> flechasHerencia;
 
 
-	public Lienzo getLienzo() {
-
-		return lienzo;
-	}
+	
 
 	private Diagrama(String nombre) {
 
 		this.clases = new ArrayList<Clase>();
 		this.nombre = nombre;
-		this.lienzo = new Lienzo();
+		
 		this.flechasHerencia = new ArrayList<Flecha>();
 	}
+	
+	private Diagrama(){}
 
 	public static Diagrama getInstance(String nombre){
 		if(diagrama == null)
@@ -137,7 +138,7 @@ public class Diagrama implements Validable, Serializable {
 
 	}
 
-	private void actualizarHerencia(){
+	public void actualizarHerencia(){
 
 		for(int i=0;i<this.clases.size();i++){
 			for(int j=0;j<this.clases.size();j++){

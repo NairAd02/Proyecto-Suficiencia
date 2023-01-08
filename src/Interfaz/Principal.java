@@ -398,15 +398,17 @@ public class Principal extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				if(diagrama != null){
 
-					try {		
-						guardarDiagrama();
-					} catch (FileNotFoundException e1) {
-
-						e1.printStackTrace();
-					} catch (IOException e1) {
-
-						e1.printStackTrace();
-					}
+							
+						try {
+							guardarDiagrama();
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					
 					repaint();
 					revalidate();
 				}

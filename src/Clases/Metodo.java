@@ -27,6 +27,8 @@ public class Metodo implements TipoValidable, Serializable {
 		this.setTipoRetorno(tipoRetorno);
 		this.setAbstracto(abstracto);
 	}
+	
+	public Metodo(){}
 
 
 

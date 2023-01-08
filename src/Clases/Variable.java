@@ -15,6 +15,8 @@ public abstract class Variable implements TipoValidable, Serializable {
 		this.setTipoDato(tipoDato);;
 	}
 	
+	public Variable(){}
+	
 	
 	public boolean validarTipo() {
 		return false;

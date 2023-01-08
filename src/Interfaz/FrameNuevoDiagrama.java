@@ -172,7 +172,7 @@ public class FrameNuevoDiagrama extends JFrame {
 	}
 	
 	public void actualizarLienzo(){
-		pe.setLienzo(Diagrama.getInstance().getLienzo());	
+		pe.setLienzo(new Lienzo());	
 		pe.getScrollPane().setViewportView(pe.getLienzo());
 		pe.actualizarAccionesLienzo();
 		pe.getLienzo().repaint();

@@ -14,6 +14,10 @@ public class Parametro extends Variable implements Serializable {
 		
 	}
 	
+	public Parametro(){
+		super();
+	}
+	
 	public boolean equals(Parametro p){
 		boolean verificador = false;
 		

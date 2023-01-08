@@ -15,6 +15,10 @@ public class Abstracta extends Clase implements Serializable {
 		
 	}
 	
+	public Abstracta(){
+		super();
+	}
+	
 	public ArrayList<Metodo> getAbstractos(){
 		ArrayList<Metodo> metodosAbstractos = new ArrayList<Metodo>();
 		for(Metodo a:this.metodos){

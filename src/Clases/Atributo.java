@@ -15,6 +15,10 @@ public class Atributo extends Variable implements Serializable{
 		this.setVisibilidad(visibilidad);
 		this.setNombre(nombre);
 	}
+	
+	public Atributo(){
+		super();
+	}
 
 	public String getVisibilidad() {
 		return visibilidad;
