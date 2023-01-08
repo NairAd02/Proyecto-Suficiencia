@@ -566,7 +566,7 @@ public abstract class Clase implements Serializable  {
 	public boolean equals(Clase c){
 		boolean verificador = false;
 
-		if(this.equalsNombre(c) && this.equalsAtributos(c) && this.equalsHijos(c) && this.equalsMetodos(c) && this.equalsColor(c))
+		if(this.equalsNombre(c) && this.equalsAtributos(c) && this.equalsHijos(c) && this.equalsMetodos(c) && this.equalsColor(c) && this.equalsPosicionXandPosicionY(c))
 			verificador = true;
 
 		return verificador;
@@ -645,6 +645,16 @@ public abstract class Clase implements Serializable  {
 
 		return verificador;
 
+	}
+	
+	private boolean equalsPosicionXandPosicionY(Clase c){
+		boolean verificador = false;
+		
+		if(this.posicionX == c.getPosicionX() && this.posicionY == c.getPosicionY())
+			verificador = true;
+		
+		return verificador;
+		
 	}
 
 

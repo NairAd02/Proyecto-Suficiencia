@@ -29,7 +29,7 @@ public class FrameDecisor extends JFrame {
 	private JPanel contentPane;
 	private JLabel lblSalir;
 	private JLabel lblTexto;
-	private JPanel panelSalir;
+	private JPanel panelGuardar;
 	private JPanel panelCancelar;
 	private JFrame pe;
 	private LabelArchivoGuardado la;
@@ -50,6 +50,8 @@ public class FrameDecisor extends JFrame {
 			nombreDiagrama = ((Principal) pe).getDiagrama().getNombre();
 		else if(pe instanceof DiagramasAbrir)
 			nombreDiagrama = ((DiagramasAbrir) pe).getPe().getDiagrama().getNombre();
+		else if(pe instanceof FrameNuevoDiagrama)
+			nombreDiagrama = ((FrameNuevoDiagrama) pe).getPe().getDiagrama().getNombre();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 509, 224);
 		setUndecorated(true);
@@ -66,15 +68,15 @@ public class FrameDecisor extends JFrame {
 		lblTexto.setBounds(10, 41, 489, 46);
 		contentPane.add(lblTexto);
 
-		panelSalir = new JPanel();
-		panelSalir.addMouseListener(new MouseAdapter() {
+		panelGuardar = new JPanel();
+		panelGuardar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				panelSalir.setBackground(new Color(104,137,148));
+				panelGuardar.setBackground(new Color(104,137,148));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				panelSalir.setBackground(SystemColor.inactiveCaptionBorder);
+				panelGuardar.setBackground(SystemColor.inactiveCaptionBorder);
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -91,9 +93,10 @@ public class FrameDecisor extends JFrame {
 					
 					System.exit(0);
 				}
-				else{
+				else if (pe instanceof DiagramasAbrir){
 					try {
 						ManejoDirectorios.guardarArchivo(((DiagramasAbrir) pe).getPe().getDiagrama());
+						la.cargarArchivo();
 					} catch (FileNotFoundException e1) {
 						
 						e1.printStackTrace();
@@ -102,22 +105,33 @@ public class FrameDecisor extends JFrame {
 						e1.printStackTrace();
 					}
 					
-					la.cargarArchivo();
+					
 				}
-
-				
+				else if (pe instanceof FrameNuevoDiagrama){
+					try {
+						ManejoDirectorios.guardarArchivo(((FrameNuevoDiagrama) pe).getPe().getDiagrama());
+						((FrameNuevoDiagrama) pe).crearNuevoDiagrama();
+					} catch (FileNotFoundException e1) {
+						
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						
+						e1.printStackTrace();
+					}
+				}
+					
 				dispose();
 			}
 		});
-		panelSalir.setBounds(20, 135, 138, 55);
-		panelSalir.setBackground(SystemColor.inactiveCaptionBorder);
-		contentPane.add(panelSalir);
-		panelSalir.setLayout(null);
+		panelGuardar.setBounds(20, 135, 138, 55);
+		panelGuardar.setBackground(SystemColor.inactiveCaptionBorder);
+		contentPane.add(panelGuardar);
+		panelGuardar.setLayout(null);
 
 		lblSalir = new JLabel("Guardar");
 		lblSalir.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSalir.setBounds(18, 7, 113, 40);
-		panelSalir.add(lblSalir);
+		panelGuardar.add(lblSalir);
 		lblSalir.setFont(new Font("Dialog", Font.BOLD, 19));
 
 
@@ -159,9 +173,11 @@ public class FrameDecisor extends JFrame {
 			public void mousePressed(MouseEvent e) {
 				if(pe instanceof Principal)
 					System.exit(0);
-				else if(pe instanceof DiagramasAbrir){
+				else if(pe instanceof DiagramasAbrir)
 					la.cargarArchivo();
-				}
+				
+				else if(pe instanceof FrameNuevoDiagrama)
+					((FrameNuevoDiagrama) pe).crearNuevoDiagrama();
 				
 				dispose();
 				

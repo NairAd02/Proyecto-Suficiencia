@@ -29,8 +29,8 @@ public class LabelArchivoGuardado extends JLabel{
 	private static final long serialVersionUID = 1L;
 	private Principal pe;
 	private DiagramasAbrir di;
-	
-	
+
+
 	public Principal getPe() {
 		return pe;
 	}
@@ -81,9 +81,6 @@ public class LabelArchivoGuardado extends JLabel{
 			pe.setDiagrama(diagrama);
 			pe.setLienzo(new Lienzo());	
 			actualizarLienzo();
-			
-			
-			
 
 
 		} catch (FileNotFoundException e1) {
@@ -97,17 +94,17 @@ public class LabelArchivoGuardado extends JLabel{
 			e1.printStackTrace();
 		}
 	}
-	
+
 	public void actualizarLienzo(){
 		ArrayList<Clase> clases = Diagrama.getInstance().getClases();
 		Lienzo lienzo = pe.getLienzo();
-		
-		
-		
+
+
+
 		for (Clase c : clases) {
 			lienzo.addPanelClase(c, pe);		
 		}
-		
+
 		lienzo.setHerencias(Diagrama.getInstance().getFlechasHerencia());
 		pe.accionesLienzo();
 		pe.getScrollPane().setViewportView(pe.getLienzo());
@@ -118,7 +115,7 @@ public class LabelArchivoGuardado extends JLabel{
 		pe.revalidate();
 		pe.setEnabled(true);
 		di.dispose();
-		
+
 	}
 
 

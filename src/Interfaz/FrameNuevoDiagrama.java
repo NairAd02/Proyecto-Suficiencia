@@ -105,15 +105,18 @@ public class FrameNuevoDiagrama extends JFrame {
 				if(!textFieldNombreDiagrama.getText().equals("") && !ManejoDirectorios.isSameName(textFieldNombreDiagrama.getText()) && ManejoDirectorios.comprobarEstadoDeGuardado(pe.getDiagrama())){
 					crearNuevoDiagrama();	
 				}
-				else if(ManejoDirectorios.isSameName(textFieldNombreDiagrama.getText())){
+				else if (textFieldNombreDiagrama.getText().equals("")){
+					lblErrorTexto.setVisible(true);
+				}
+				else if(ManejoDirectorios.isSameName(textFieldNombreDiagrama.getText()+".json")){
 					lblDiagramaSameNameError.setVisible(true);
 				}
 				else if(!ManejoDirectorios.comprobarEstadoDeGuardado(pe.getDiagrama())){
-					System.out.println("No esta guardado");
+					FrameDecisor decisor = new FrameDecisor(FrameNuevoDiagrama.this, null);
+					decisor.setVisible(true);
+					setEnabled(false);
 				}
-				else{
-					lblErrorTexto.setVisible(true);
-				}
+				
 			}
 		});
 		
@@ -191,6 +194,10 @@ public class FrameNuevoDiagrama extends JFrame {
 		pe.habilitarPrograma();
 		pe.setEnabled(true);
 		dispose();
+	}
+
+	public Principal getPe() {
+		return pe;
 	}
 	
 }
