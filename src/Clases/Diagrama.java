@@ -21,16 +21,16 @@ public class Diagrama implements Validable, Serializable {
 	private ArrayList<Flecha> flechasHerencia;
 
 
-	
+
 
 	private Diagrama(String nombre) {
 
 		this.clases = new ArrayList<Clase>();
 		this.nombre = nombre;
-		
+
 		this.flechasHerencia = new ArrayList<Flecha>();
 	}
-	
+
 	private Diagrama(){}
 
 	public static Diagrama getInstance(String nombre){
@@ -40,7 +40,7 @@ public class Diagrama implements Validable, Serializable {
 		return diagrama;
 
 	}
-	
+
 	public void addFlechaHerencia(Flecha flecha){
 		this.flechasHerencia.add(flecha);
 	}
@@ -52,8 +52,8 @@ public class Diagrama implements Validable, Serializable {
 	public String getNombre() {
 		return nombre;
 	}
-	
-	
+
+
 
 	public ArrayList<Flecha> getFlechasHerencia() {
 		return flechasHerencia;
@@ -150,6 +150,14 @@ public class Diagrama implements Validable, Serializable {
 			}
 		}
 	}
+	
+	public void cargarHijos(){
+		
+		for (Clase c : this.clases) {
+			c.setHijos(new ArrayList<Clase>());
+		}
+		this.actualizarHerencia();
+	}
 
 	public ArrayList<Clase> buscarHijosdeClase(String nombreClase){
 		return this.buscarClase(nombreClase).getHijos();
@@ -181,6 +189,8 @@ public class Diagrama implements Validable, Serializable {
 					claseNueva.setAtributos(this.clases.get(i).getAtributos());
 					claseNueva.setMetodos(this.clases.get(i).getMetodos());
 					claseNueva.setPadre(this.clases.get(i).getPadre());
+					claseNueva.setHijos(this.clases.get(i).getHijos());
+					claseNueva.setColor(this.clases.get(i).getColor());
 					claseNueva.setPosicionX(this.clases.get(i).getPosicionX());
 					claseNueva.setPosicionY(this.clases.get(i).getPosicionY());
 					this.modificarClaseHerencia(this.clases.get(i), claseNueva);
@@ -205,6 +215,8 @@ public class Diagrama implements Validable, Serializable {
 				claseAbstracta.setAtributos(this.clases.get(i).getAtributos());
 				claseAbstracta.setMetodos(this.clases.get(i).getMetodos());
 				claseAbstracta.setPadre(this.clases.get(i).getPadre());
+				claseAbstracta.setHijos(this.clases.get(i).getHijos());
+				claseAbstracta.setColor(this.clases.get(i).getColor());
 				claseAbstracta.setPosicionX(this.clases.get(i).getPosicionX());
 				claseAbstracta.setPosicionY(this.clases.get(i).getPosicionY());
 				this.modificarClaseHerencia(this.clases.get(i), claseAbstracta);
@@ -215,18 +227,18 @@ public class Diagrama implements Validable, Serializable {
 		}
 
 	}
-	
+
 	private void modificarClaseHerencia(Clase claseVieja, Clase claseNueva){
 		for (Clase c : this.clases) {
 			if(c.isMiPadre(claseVieja))
 				c.setPadre(claseNueva);
 			else if(c.isMiHijo(claseVieja))
 				c.modificarHijo(claseVieja, claseNueva);
-				
+
 		}
 	}
-	
-	
+
+
 
 	public void CambiarMetodosAbstractosAConcretos(String nombreClase){
 		System.out.println(nombreClase);
@@ -250,12 +262,12 @@ public class Diagrama implements Validable, Serializable {
 
 	public void eliminarClase(String nombre){
 		Clase claseEliminar = this.buscarClase(nombre);
-		
+
 		if(claseEliminar!=null){
 			this.eliminarPadre(claseEliminar);
 			this.eliminarHijo(claseEliminar);
 			this.clases.remove(claseEliminar);
-            this.eliminarRelaciones(nombre);
+			this.eliminarRelaciones(nombre);
 		}
 		else
 			throw new IllegalArgumentException();
@@ -541,7 +553,7 @@ public class Diagrama implements Validable, Serializable {
 
 		return verificador;
 	}
-	
+
 	public void eliminarRelaciones(String nombre){
 		int i = 0;
 		boolean x = false;

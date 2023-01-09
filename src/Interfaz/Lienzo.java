@@ -1,11 +1,12 @@
 package Interfaz;
 
 import java.awt.BasicStroke;
-
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.SystemColor;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -13,6 +14,10 @@ import javax.swing.JPanel;
 
 
 
+
+
+
+import Clases.Abstracta;
 import Clases.Atributo;
 import Clases.Clase;
 import Clases.Metodo;
@@ -36,11 +41,11 @@ public class Lienzo extends JPanel implements Runnable{
 	private ArrayList<Linea> claseAsociacion;
 	//private Point inicio, finale;
 	private Flecha aux;
-	
-	
-	
+
+
+
 	public Lienzo() {
-		
+
 		this.herencias = new ArrayList<Flecha>();
 		this.asociaciones = new ArrayList<Linea>();
 		this.claseAsociacion = new ArrayList<Linea>();
@@ -231,6 +236,10 @@ public class Lienzo extends JPanel implements Runnable{
 		PanelClase panelClase = new  PanelClase(p);
 		panelClase.setClaseDiagrama(clase);
 		panelClase.getLblNombreclase().setText(clase.getNombre());
+		if(clase instanceof Abstracta)
+			panelClase.getLblNombreclase().setFont(new Font("Segoe Script", Font.PLAIN, 16));
+		
+		this.cambiarColorPanelClase(clase, panelClase);
 		this.llenarAtributos(clase.getAtributos(), panelClase);
 		this.llenarMetodos(clase.getMetodos(), panelClase);
 		panelClase.setBounds(clase.getPosicionX(), clase.getPosicionY(), panelClase.getPreferredSize().width+50, panelClase.getPreferredSize().height+50);
@@ -238,8 +247,8 @@ public class Lienzo extends JPanel implements Runnable{
 		add(panelClase);
 
 	}
-	
-	
+
+
 
 	private void llenarAtributos(ArrayList<Atributo> atributos, PanelClase panelClase ){
 		for (Atributo a : atributos) {
@@ -255,6 +264,25 @@ public class Lienzo extends JPanel implements Runnable{
 
 	}
 
+	private void cambiarColorPanelClase(Clase clase, PanelClase panelClase){
+		if(clase.getColor().equals("Gris")){
+			panelClase.setBackground(SystemColor.control);
+			panelClase.getPanelAtributos().setBackground(SystemColor.control);
+			panelClase.getPanelMetodos().setBackground(SystemColor.control);
+		}
+		else if(clase.getColor().equals("Azul")){
+			panelClase.setBackground(SystemColor.activeCaption);
+			panelClase.getPanelAtributos().setBackground(SystemColor.activeCaption);
+			panelClase.getPanelMetodos().setBackground(SystemColor.activeCaption);
+		}
+		else if(clase.getColor().equals("Amarillo")){
+			panelClase.setBackground(SystemColor.info);
+			panelClase.getPanelAtributos().setBackground(SystemColor.info);
+			panelClase.getPanelMetodos().setBackground(SystemColor.info);
+		}
+	}
+	
+	
 	public ArrayList<Flecha> getHerencias() {
 		return herencias;
 	}
@@ -262,6 +290,6 @@ public class Lienzo extends JPanel implements Runnable{
 	public void setHerencias(ArrayList<Flecha> herencias) {
 		this.herencias = herencias;
 	}
-	
-	
+
+
 }

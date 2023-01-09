@@ -76,7 +76,7 @@ public class LabelArchivoGuardado extends JLabel{
 		Diagrama diagrama = null;
 		try {
 			diagrama = (Diagrama) ManejoDirectorios.recuperarArchivo(getText());
-			diagrama.actualizarHerencia();
+			diagrama.cargarHijos();
 			Diagrama.setInstance(diagrama);
 			pe.setDiagrama(diagrama);
 			pe.setLienzo(new Lienzo());	

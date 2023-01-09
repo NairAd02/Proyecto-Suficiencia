@@ -21,8 +21,8 @@ public abstract class Clase implements Serializable  {
 	protected String nombre;
 	protected ArrayList<Metodo> metodos;
 	protected ArrayList<Atributo> atributos;
-	@JsonIgnore
 	protected Clase padre;
+	@JsonIgnore
 	protected ArrayList<Clase> hijos;
 	protected String color;
 	protected int posicionX;
@@ -239,8 +239,10 @@ public abstract class Clase implements Serializable  {
 		boolean parada = false;
 		for(int i = 0; i<this.hijos.size() && !parada; i++){
 			if(this.hijos.get(i).equals(claseVieja)){
+				
 				this.hijos.set(i, claseNueva);
 				parada = true;
+				System.out.println("Lo modifiqueeee");
 			}
 		}
 	}
@@ -566,7 +568,7 @@ public abstract class Clase implements Serializable  {
 	public boolean equals(Clase c){
 		boolean verificador = false;
 
-		if(this.equalsNombre(c) && this.equalsAtributos(c) && this.equalsHijos(c) && this.equalsMetodos(c) && this.equalsColor(c) && this.equalsPosicionXandPosicionY(c))
+		if(this.equalsNombre(c) && this.equalsAtributos(c) && this.equalsMetodos(c) && this.equalsColor(c) && this.equalsPosicionXandPosicionY(c))
 			verificador = true;
 
 		return verificador;
@@ -617,25 +619,7 @@ public abstract class Clase implements Serializable  {
 
 	}
 
-	private boolean equalsHijos(Clase c){
-		boolean verificador = true;
-		ArrayList<Clase> cc = c.getHijos(); 
-
-		if(this.hijos.size() == cc.size()){
-
-			for (int i = 0; i < this.hijos.size() && verificador; i++) {
-
-				if(!this.hijos.get(i).equals(cc.get(i)))
-					verificador = false;
-				System.out.println("as");
-			}
-		}
-		else
-			verificador = false;
-
-		return verificador;
-
-	}
+	
 
 	private boolean equalsColor(Clase c){
 		boolean verificador = false;
@@ -676,6 +660,7 @@ public abstract class Clase implements Serializable  {
 	}
 
 	public void setPadre(Clase padre) {
+		System.out.println("Ya cambie el padre");
 		this.padre = padre;
 	}
 
